@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anatomie Dentară: Teorie și Quiz</title>
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #2c3e50;
+            --accent-color: #d63384;
+            --bg-color: #f0f2f5;
+            --sidebar-width: 260px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- SIDEBAR NAVIGATION --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: white;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .menu-group { margin-bottom: 20px; }
+        .menu-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: #888;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .nav-btn {
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-radius: 6px;
+            color: var(--secondary-color);
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .nav-btn:hover { background-color: #e9f5ff; color: var(--primary-color); }
+        .nav-btn.active { background-color: var(--primary-color); color: white; }
+
+        .sub-menu .nav-btn {
+            padding-left: 30px;
+            font-size: 0.95rem;
+        }
+
+        /* --- MAIN CONTENT AREA --- */
+        .main-content {
+            flex-grow: 1;
+            padding: 40px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .section { display: none; max-width: 800px; margin: 0 auto; padding-bottom: 50px; }
+        .section.active-section { display: block; animation: fadeIn 0.3s; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Stiluri pentru Teorie */
+        h1 { color: var(--secondary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-bottom: 20px; }
+        h2, h3 { color: var(--primary-color); margin-top: 30px; }
+        p { line-height: 1.6; color: #444; font-size: 1.1rem; margin-bottom: 15px; text-align: justify; }
+        ul { line-height: 1.6; font-size: 1.1rem; color: #444; }
+
+        /* Stiluri pentru IMAGINI DIDACTICE */
+        .didactic-img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border: 1px solid #ddd;
+        }
+        .img-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: -10px;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        /* Stiluri pentru Quiz */
+        .quiz-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .score-board { font-size: 1.2rem; margin-bottom: 1rem; color: #555; }
+        .question-box {
+            background: #e9f5ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #b3d7ff;
+            margin-bottom: 1.5rem;
+        }
+        .tooth-name { font-weight: bold; color: var(--primary-color); font-size: 1.3rem; display: block; margin: 10px 0; }
+        .system-name { font-weight: bold; color: var(--accent-color); }
+        input[type="text"] {
+            padding: 10px; font-size: 1.2rem; width: 70%; margin-bottom: 10px;
+            border: 2px solid #ddd; border-radius: 6px; text-align: center;
+        }
+        .symbol-buttons { margin-bottom: 15px; }
+        .symbol-btn {
+            background: #eee; border: 1px solid #ccc; padding: 5px 10px;
+            margin: 2px; cursor: pointer; border-radius: 4px; font-size: 1.2rem;
+        }
+        .symbol-btn:hover { background: #ddd; }
+        .action-btn {
+            background-color: #28a745; color: white; border: none; padding: 12px 24px;
+            font-size: 1rem; border-radius: 6px; cursor: pointer; transition: background 0.3s;
+        }
+        .action-btn:hover { background-color: #218838; }
+        .hidden { display: none; }
+        .correct { color: #28a745; font-weight: bold; }
+        .wrong { color: #dc3545; font-weight: bold; }
+
+        @media (max-width: 768px) {
+            body { flex-direction: column; height: auto; overflow: auto; }
+            .sidebar { width: 100%; height: auto; box-sizing: border-box; border-right: none; border-bottom: 1px solid #ddd; }
+            .main-content { padding: 20px; overflow: visible; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="sidebar">
+        <div class="brand">Morfologie Dentară</div>
+        
+        <div class="menu-group">
+            <span class="menu-label">Aplicație</span>
+            <button class="nav-btn active" onclick="switchSection('quiz', this)">▶ TEST (Quiz)</button>
+        </div>
+
+        <div class="menu-group">
+            <span class="menu-label">TEORIE</span>
+            <div class="sub-menu">
+                <button class="nav-btn" onclick="switchSection('theory-fdi', this)">1. Sistemul FDI</button>
+                <button class="nav-btn" onclick="switchSection('theory-francez', this)">2. Sistemul Francez</button>
+                <button class="nav-btn" onclick="switchSection('theory-unghiular', this)">3. Sistemul Unghiular</button>
+                <button class="nav-btn" onclick="switchSection('theory-aritmetic', this)">4. Sistemul Aritmetic</button>
+                <button class="nav-btn" onclick="switchSection('theory-american', this)">5. Sistemul American</button>
+                <button class="nav-btn" onclick="switchSection('theory-palmer', this)">6. Sistemul Palmer</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+
+        <div id="quiz" class="section active-section">
+            <div class="quiz-container">
+                <h1>Test Complet – Sistemele de Notare</h1>
+                
+                <div id="game-area">
+                    <div class="score-board">
+                        Întrebarea <span id="current-q">1</span>/10 | Scor: <span id="score">0</span>
+                    </div>
+
+                    <div class="question-box">
+                        <div class="question-text">
+                            Ce notație are acest dinte în sistemul <span id="system-display" class="system-name"></span>?
+                        </div>
+                        <span id="tooth-display" class="tooth-name"></span>
+                    </div>
+
+                    <div class="symbol-buttons">
+                        <button class="symbol-btn" onclick="addSymbol('┘')">┘</button>
+                        <button class="symbol-btn" onclick="addSymbol('└')">└</button>
+                        <button class="symbol-btn" onclick="addSymbol('┐')">┐</button>
+                        <button class="symbol-btn" onclick="addSymbol('┌')">┌</button>
+                        <button class="symbol-btn" onclick="addSymbol('├')">├</button>
+                        <button class="symbol-btn" onclick="addSymbol('+')">+</button>
+                        <button class="symbol-btn" onclick="addSymbol('-')">-</button>
+                    </div>
+
+                    <input type="text" id="answer-input" placeholder="Scrie răspunsul aici..." autocomplete="off">
+                    <br>
+                    <button id="submit-btn" class="action-btn" onclick="checkAnswer()">Verifică</button>
+                    <button id="next-btn" class="action-btn hidden" onclick="nextQuestion()">Următoarea Întrebare</button>
+                    
+                    <div id="feedback"></div>
+                </div>
+
+                <div id="result-area" class="hidden">
+                    <h2>Test Finalizat!</h2>
+                    <p>Scorul tău final este: <strong id="final-score"></strong>/10</p>
+                    <button class="action-btn" onclick="restartGame()">Reîncepe Testul</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="theory-fdi" class="section">
+            <h1>1. Sistemul de notație FDI</h1>
+            <p><strong>(Federația Dentară Internațională)</strong></p>
+            <p>Sistemul FDI este cel mai utilizat sistem de notație dentară la nivel internațional, fiind adoptat de Organizația Mondială a Sănătății și de majoritatea școlilor și cabinetelor stomatologice. Acest sistem permite identificarea precisă și rapidă a fiecărui dinte, atât în dentiția permanentă, cât și în cea temporară.</p>
+            
+            <img src="C:\Users\andre\Desktop\aplicatie\FDI.jpg" alt="Schema FDI" class="didactic-img">
+            <div class="img-caption">Fig 1. Schema cadranelor în sistemul FDI</div>
+
+            <p>Notația se bazează pe două cifre. Prima cifră indică <strong>cadranul dentar</strong>, iar a doua cifră indică <strong>poziția dintelui</strong> în cadrul cadranului, numerotarea făcându-se de la linia mediană spre posterior.</p>
+            
+            <h3>Numerotarea Cadrane (Prima cifră):</h3>
+            <ul>
+                <li><strong>1</strong> – Maxilarul drept (Permanent)</li>
+                <li><strong>2</strong> – Maxilarul stâng (Permanent)</li>
+                <li><strong>3</strong> – Mandibula stângă (Permanent)</li>
+                <li><strong>4</strong> – Mandibula dreaptă (Permanent)</li>
+            </ul>
+            <p>Pentru dentiția temporară se folosesc cadranele <strong>5, 6, 7 și 8</strong>, în aceeași ordine.</p>
+
+            <h3>Poziția dinților (A doua cifră):</h3>
+            <p>Numerotată de la 1 la 8, unde 1 este incisivul central, iar 8 este molarul de minte.</p>
+
+            <div class="question-box">
+                <strong>Exemplu:</strong><br>
+                Dintele <strong>11</strong> = Incisivul central superior drept.<br>
+                Dintele <strong>36</strong> = Primul molar inferior stâng.
+            </div>
+        </div>
+
+        <div id="theory-francez" class="section">
+            <h1>2. Sistemul de notație Francez</h1>
+            <p>Sistemul francez este o variantă europeană derivată din sistemul Zsigmondy și a fost utilizat frecvent înainte de standardizarea internațională.</p>
+            <p>În acest sistem, dinții sunt numerotați cu cifre arabe de la <strong>1 la 8</strong>, în funcție de poziția lor pe arcadă, pornind de la incisivul central.</p>
+            
+            <img src="https://via.placeholder.com/600x200?text=Schema+Sistemului+Francez" alt="Schema Franceza" class="didactic-img">
+            
+            <p>Cadranul din care face parte dintele este indicat prin semne grafice (linii orizontale sau verticale) plasate în jurul cifrei sau, în unele variații, prin litere (D - Dreapta, S - Stânga) combinate cu numere.</p>
+            <p>Deși sistemul este intuitiv pe diagrame și desene, dezavantajul său constă în dificultatea utilizării în scrierea rapidă și în documentele digitale.</p>
+        </div>
+
+        <div id="theory-unghiular" class="section">
+            <h1>3. Sistemul de notație Unghiular (Zsigmondy)</h1>
+            <p>Sistemul unghiular, cunoscut și sub numele de sistemul Zsigmondy, este unul dintre cele mai vechi sisteme de notație dentară. În acest sistem, dinții sunt numerotați de la 1 la 8, începând cu incisivul central și terminând cu molarul de minte.</p>
+            
+            <img src="C:\Users\andre\Desktop\aplicatie\UNGHIULAR.jpg" alt="Sistemul Unghiular" class="didactic-img">
+            <div class="img-caption">Fig 3. Simbolurile unghiulare pentru fiecare cadran</div>
+
+            <p>Poziția dintelui pe arcadă este indicată printr-un <strong>simbol unghiular</strong> care reprezintă cadranul:</p>
+            <ul>
+                <li><strong>┘</strong> : Superior Drept</li>
+                <li><strong>└</strong> : Superior Stâng</li>
+                <li><strong>┐</strong> : Inferior Drept</li>
+                <li><strong>┌</strong> : Inferior Stâng</li>
+            </ul>
+            
+            <div class="question-box">
+                <strong>Exemplu:</strong><br>
+                <strong>1┘</strong> = Incisivul central superior drept.
+            </div>
+            <p>Avantajul sistemului unghiular este reprezentarea vizuală foarte clară pe schemele dentare, însă utilizarea sa este limitată în documentația scrisă și digitală modernă.</p>
+        </div>
+
+        <div id="theory-aritmetic" class="section">
+            <h1>4. Sistemul de notație Aritmetic</h1>
+            <p>Sistemul aritmetic este un sistem numeric simplificat, în care dinții sunt numerotați consecutiv, fără a se face referire directă la cadrane.</p>
+            
+             <img src="C:\Users\andre\Desktop\aplicatie\ARITMETIC.jpg" alt="Sistemul Aritmetic" class="didactic-img">
+
+            <ul>
+                <li><strong>Dentiție permanentă:</strong> Numerotare de la 1 la 32.</li>
+                <li><strong>Dentiție temporară:</strong> Numerotare de la 1 la 20.</li>
+            </ul>
+            <p>Numerotarea începe convențional de la molarul de minte superior drept și continuă pe întreaga arcadă, până la ultimul dinte inferior drept (în sens orar, dacă privim pacientul din față).</p>
+
+            <div class="question-box">
+                <strong>Exemplu:</strong><br>
+                Dintele <strong>1</strong> = Molarul de minte superior drept.<br>
+                Dintele <strong>32</strong> = Molarul de minte inferior drept.
+            </div>
+            
+            <p>Uneori se folosesc semnele <strong>+</strong> (maxilar) și <strong>-</strong> (mandibulă) pentru a diferenția arcadele (ex: 1+ vs 1-).</p>
+        </div>
+
+        <div id="theory-american" class="section">
+            <h1>5. Sistemul de notație American (Universal)</h1>
+            <p>Cunoscut și sub numele de sistem universal, este folosit în principal în Statele Unite ale Americii.</p>
+            <ul>
+                <li><strong>Dinți permanenți:</strong> Numerotați de la 1 la 32.</li>
+                <li><strong>Dinți temporari:</strong> Notați cu literele A–T.</li>
+            </ul>
+            
+            <img src="C:\Users\andre\Desktop\aplicatie\AMERICAN.jpg" alt="Sistemul American" class="didactic-img">
+
+            <p>Numerotarea începe cu molarul de minte superior drept (1), continuă pe arcada superioară până la molarul de minte superior stâng (16), apoi coboară pe arcada inferioară stângă (17) și continuă până la molarul de minte inferior drept (32).</p>
+            
+            <div class="question-box">
+                <strong>Exemplu:</strong><br>
+                Dintele <strong>8</strong> = Incisivul central superior drept.<br>
+                Dintele <strong>19</strong> = Primul molar inferior stâng.
+            </div>
+            <p>Sistemul american este ușor de utilizat în practică, însă nu oferă informații directe despre cadran, ceea ce poate crea confuzii în comunicarea internațională.</p>
+        </div>
+
+        <div id="theory-palmer" class="section">
+            <h1>6. Sistemul de notație Palmer</h1>
+            <p>Sistemul Palmer este frecvent utilizat în <strong>ortodonție</strong> și în reprezentările grafice ale arcadelor dentare.</p>
+            <ul>
+                <li><strong>Dinți permanenți:</strong> Numerotați de la 1 la 8.</li>
+                <li><strong>Dinți temporari:</strong> Notați cu litere de la A la E.</li>
+            </ul>
+            
+            <img src="https://via.placeholder.com/500x300?text=Sistemul+Palmer" alt="Sistemul Palmer" class="didactic-img">
+
+            <p>Cadranul este indicat printr-un simbol în formă de L (unghiular), plasat lângă cifra sau litera dintelui, simbol care arată poziția acestuia pe arcadă (superior/inferior, dreapta/stânga).</p>
+            
+            <div class="question-box">
+                <strong>Exemplu:</strong><br>
+                <strong>┘A</strong> = Incisiv central temporar superior drept.
+            </div>
+            <p>Principalul avantaj al sistemului Palmer este claritatea vizuală, fiind ideal pentru planuri de tratament și scheme ortodontice. Dezavantajul constă în dificultatea utilizării în format electronic.</p>
+        </div>
+
+    </main>
+
+    <script>
+        // =====================================================================
+        // NAVIGARE & UI LOGIC
+        // =====================================================================
+        function switchSection(sectionId, btnElement) {
+            document.querySelectorAll('.section').forEach(el => el.classList.remove('active-section'));
+            document.getElementById(sectionId).classList.add('active-section');
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            if(btnElement) {
+                btnElement.classList.add('active');
+            }
+        }
+
+        // =====================================================================
+        // QUIZ LOGIC
+        // =====================================================================
+        const dinti = [
+            // --- TEMPORARI MAXILAR ---
+            {nume: "Incisiv Central Maxilar Drept Temporar", FDI: "51", Francez: "DI", Unghiular: "LI", Aritmetic: "1+", American: "E", Palmer: "┘A"},
+            {nume: "Incisiv Central Maxilar Stâng Temporar", FDI: "61", Francez: "SI", Unghiular: "I├", Aritmetic: "+1", American: "F", Palmer: "└A"},
+            {nume: "Incisiv Lateral Maxilar Drept Temporar", FDI: "52", Francez: "DII", Unghiular: "LII", Aritmetic: "2+", American: "D", Palmer: "┘B"},
+            {nume: "Incisiv Lateral Maxilar Stâng Temporar", FDI: "62", Francez: "SII", Unghiular: "II├", Aritmetic: "+2", American: "G", Palmer: "└B"},
+            {nume: "Canin Maxilar Drept Temporar", FDI: "53", Francez: "DIII", Unghiular: "LIII", Aritmetic: "3+", American: "C", Palmer: "┘C"},
+            {nume: "Canin Maxilar Stâng Temporar", FDI: "63", Francez: "SIII", Unghiular: "III├", Aritmetic: "+3", American: "H", Palmer: "└C"},
+            {nume: "Molar 1 Maxilar Drept Temporar", FDI: "54", Francez: "DIV", Unghiular: "LIV", Aritmetic: "4+", American: "B", Palmer: "┘D"},
+            {nume: "Molar 1 Maxilar Stâng Temporar", FDI: "64", Francez: "SIV", Unghiular: "IV├", Aritmetic: "+4", American: "I", Palmer: "└D"},
+            {nume: "Molar 2 Maxilar Drept Temporar", FDI: "55", Francez: "DV", Unghiular: "LV", Aritmetic: "5+", American: "A", Palmer: "┘E"},
+            {nume: "Molar 2 Maxilar Stâng Temporar", FDI: "65", Francez: "SV", Unghiular: "V├", Aritmetic: "+5", American: "J", Palmer: "└E"},
+
+            // --- TEMPORARI MANDIBULĂ ---
+            {nume: "Incisiv Central Mandibular Drept Temporar", FDI: "81", Francez: "dI", Unghiular: "I┘", Aritmetic: "1-", American: "P", Palmer: "┘A"},
+            {nume: "Incisiv Central Mandibular Stâng Temporar", FDI: "71", Francez: "sI", Unghiular: "└I", Aritmetic: "-1", American: "O", Palmer: "└A"},
+            {nume: "Incisiv Lateral Mandibular Drept Temporar", FDI: "82", Francez: "dII", Unghiular: "II┘", Aritmetic: "2-", American: "Q", Palmer: "┘B"},
+            {nume: "Incisiv Lateral Mandibular Stâng Temporar", FDI: "72", Francez: "sII", Unghiular: "└II", Aritmetic: "-2", American: "N", Palmer: "└B"},
+            {nume: "Canin Mandibular Drept Temporar", FDI: "83", Francez: "dIII", Unghiular: "III┘", Aritmetic: "3-", American: "R", Palmer: "┘C"},
+            {nume: "Canin Mandibular Stâng Temporar", FDI: "73", Francez: "sIII", Unghiular: "└III", Aritmetic: "-3", American: "M", Palmer: "└C"},
+            {nume: "Molar 1 Mandibular Drept Temporar", FDI: "84", Francez: "dIV", Unghiular: "IV┘", Aritmetic: "4-", American: "S", Palmer: "┘D"},
+            {nume: "Molar 1 Mandibular Stâng Temporar", FDI: "74", Francez: "sIV", Unghiular: "└IV", Aritmetic: "-4", American: "L", Palmer: "└D"},
+            {nume: "Molar 2 Mandibular Drept Temporar", FDI: "85", Francez: "dV", Unghiular: "V┘", Aritmetic: "5-", American: "T", Palmer: "┘E"},
+            {nume: "Molar 2 Mandibular Stâng Temporar", FDI: "75", Francez: "sV", Unghiular: "└V", Aritmetic: "-5", American: "K", Palmer: "└E"},
+
+            // --- PERMANENȚI MAXILAR ---
+            {nume: "Incisiv Central Maxilar Drept Permanent", FDI: "11", Francez: "D1", Unghiular: "S1", Aritmetic: "1+", American: "8", Palmer: "┘1"},
+            {nume: "Incisiv Central Maxilar Stâng Permanent", FDI: "21", Francez: "S1", Unghiular: "1├", Aritmetic: "+1", American: "9", Palmer: "└1"},
+            {nume: "Incisiv Lateral Maxilar Drept Permanent", FDI: "12", Francez: "D2", Unghiular: "S2", Aritmetic: "2+", American: "7", Palmer: "┘2"},
+            {nume: "Incisiv Lateral Maxilar Stâng Permanent", FDI: "22", Francez: "S2", Unghiular: "2├", Aritmetic: "+2", American: "10", Palmer: "└2"},
+            {nume: "Canin Maxilar Drept Permanent", FDI: "13", Francez: "D3", Unghiular: "S3", Aritmetic: "3+", American: "6", Palmer: "┘3"},
+            {nume: "Canin Maxilar Stâng Permanent", FDI: "23", Francez: "S3", Unghiular: "3├", Aritmetic: "+3", American: "11", Palmer: "└3"},
+            {nume: "Premolar 1 Maxilar Drept Permanent", FDI: "14", Francez: "D4", Unghiular: "S4", Aritmetic: "4+", American: "5", Palmer: "┘4"},
+            {nume: "Premolar 1 Maxilar Stâng Permanent", FDI: "24", Francez: "S4", Unghiular: "4├", Aritmetic: "+4", American: "12", Palmer: "└4"},
+            {nume: "Premolar 2 Maxilar Drept Permanent", FDI: "15", Francez: "D5", Unghiular: "S5", Aritmetic: "5+", American: "4", Palmer: "┘5"},
+            {nume: "Premolar 2 Maxilar Stâng Permanent", FDI: "25", Francez: "S5", Unghiular: "5├", Aritmetic: "+5", American: "13", Palmer: "└5"},
+            {nume: "Molar 1 Maxilar Drept Permanent", FDI: "16", Francez: "D6", Unghiular: "S6", Aritmetic: "6+", American: "3", Palmer: "┘6"},
+            {nume: "Molar 1 Maxilar Stâng Permanent", FDI: "26", Francez: "S6", Unghiular: "6├", Aritmetic: "+6", American: "14", Palmer: "└6"},
+            {nume: "Molar 2 Maxilar Drept Permanent", FDI: "17", Francez: "D7", Unghiular: "S7", Aritmetic: "7+", American: "2", Palmer: "┘7"},
+            {nume: "Molar 2 Maxilar Stâng Permanent", FDI: "27", Francez: "S7", Unghiular: "7├", Aritmetic: "+7", American: "15", Palmer: "└7"},
+            {nume: "Molar 3 Maxilar Drept Permanent", FDI: "18", Francez: "D8", Unghiular: "S8", Aritmetic: "8+", American: "1", Palmer: "┘8"},
+            {nume: "Molar 3 Maxilar Stâng Permanent", FDI: "28", Francez: "S8", Unghiular: "8├", Aritmetic: "+8", American: "16", Palmer: "└8"},
+
+            // --- PERMANENȚI MANDIBULĂ ---
+            {nume: "Incisiv Central Mandibular Drept Permanent", FDI: "41", Francez: "d1", Unghiular: "1┘", Aritmetic: "1-", American: "25", Palmer: "┘1"},
+            {nume: "Incisiv Central Mandibular Stâng Permanent", FDI: "31", Francez: "s1", Unghiular: "└1", Aritmetic: "-1", American: "24", Palmer: "└1"},
+            {nume: "Incisiv Lateral Mandibular Drept Permanent", FDI: "42", Francez: "d2", Unghiular: "2┘", Aritmetic: "2-", American: "26", Palmer: "┘2"},
+            {nume: "Incisiv Lateral Mandibular Stâng Permanent", FDI: "32", Francez: "s2", Unghiular: "└2", Aritmetic: "-2", American: "23", Palmer: "└2"},
+            {nume: "Canin Mandibular Drept Permanent", FDI: "43", Francez: "d3", Unghiular: "3┘", Aritmetic: "3-", American: "27", Palmer: "┘3"},
+            {nume: "Canin Mandibular Stâng Permanent", FDI: "33", Francez: "s3", Unghiular: "└3", Aritmetic: "-3", American: "22", Palmer: "└3"},
+            {nume: "Premolar 1 Mandibular Drept Permanent", FDI: "44", Francez: "d4", Unghiular: "4┘", Aritmetic: "4-", American: "28", Palmer: "┘4"},
+            {nume: "Premolar 1 Mandibular Stâng Permanent", FDI: "34", Francez: "s4", Unghiular: "└4", Aritmetic: "-4", American: "21", Palmer: "└4"},
+            {nume: "Premolar 2 Mandibular Drept Permanent", FDI: "45", Francez: "d5", Unghiular: "5┘", Aritmetic: "5-", American: "29", Palmer: "┘5"},
+            {nume: "Premolar 2 Mandibular Stâng Permanent", FDI: "35", Francez: "s5", Unghiular: "└5", Aritmetic: "-5", American: "20", Palmer: "└5"},
+            {nume: "Molar 1 Mandibular Drept Permanent", FDI: "46", Francez: "d6", Unghiular: "6┘", Aritmetic: "6-", American: "30", Palmer: "┘6"},
+            {nume: "Molar 1 Mandibular Stâng Permanent", FDI: "36", Francez: "s6", Unghiular: "└6", Aritmetic: "-6", American: "19", Palmer: "└6"},
+            {nume: "Molar 2 Mandibular Drept Permanent", FDI: "47", Francez: "d7", Unghiular: "7┘", Aritmetic: "7-", American: "31", Palmer: "┘7"},
+            {nume: "Molar 2 Mandibular Stâng Permanent", FDI: "37", Francez: "s7", Unghiular: "└7", Aritmetic: "-7", American: "18", Palmer: "└7"},
+            {nume: "Molar 3 Mandibular Drept Permanent", FDI: "48", Francez: "d8", Unghiular: "8┘", Aritmetic: "8-", American: "32", Palmer: "┘8"},
+            {nume: "Molar 3 Mandibular Stâng Permanent", FDI: "38", Francez: "s8", Unghiular: "└8", Aritmetic: "-8", American: "17", Palmer: "└8"}
+        ];
+
+        const sisteme = ["FDI", "Francez", "Unghiular", "Aritmetic", "American", "Palmer"];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        let maxQuestions = 10;
+        let currentTooth = null;
+        let currentSystem = "";
+
+        function startGame() {
+            currentQuestion = 0;
+            score = 0;
+            document.getElementById("game-area").classList.remove("hidden");
+            document.getElementById("result-area").classList.add("hidden");
+            updateScore();
+            nextQuestion();
+        }
+
+        function generateRandomQuestion() {
+            const randomIndex = Math.floor(Math.random() * dinti.length);
+            currentTooth = dinti[randomIndex];
+            currentSystem = sisteme[Math.floor(Math.random() * sisteme.length)];
+            
+            document.getElementById("system-display").textContent = currentSystem;
+            document.getElementById("tooth-display").textContent = currentTooth.nume;
+            
+            // Reset UI
+            document.getElementById("answer-input").value = "";
+            document.getElementById("feedback").textContent = "";
+            document.getElementById("submit-btn").classList.remove("hidden");
+            document.getElementById("next-btn").classList.add("hidden");
+            document.getElementById("answer-input").focus();
+        }
+
+        function nextQuestion() {
+            if (currentQuestion >= maxQuestions) {
+                endGame();
+                return;
+            }
+            currentQuestion++;
+            document.getElementById("current-q").textContent = currentQuestion;
+            generateRandomQuestion();
+        }
+
+        function checkAnswer() {
+            const input = document.getElementById("answer-input").value.trim();
+            const correctAnswer = currentTooth[currentSystem];
+            const feedbackEl = document.getElementById("feedback");
+
+            if (input.toLowerCase() === correctAnswer.toLowerCase()) {
+                score++;
+                feedbackEl.innerHTML = `<span class="correct">✔ Corect!</span>`;
+                updateScore();
+            } else {
+                feedbackEl.innerHTML = `<span class="wrong">✘ Greșit. Răspunsul corect era: ${correctAnswer}</span>`;
+            }
+
+            document.getElementById("submit-btn").classList.add("hidden");
+            document.getElementById("next-btn").classList.remove("hidden");
+            
+            if (currentQuestion === maxQuestions) {
+                 document.getElementById("next-btn").textContent = "Vezi Rezultatul";
+            } else {
+                 document.getElementById("next-btn").textContent = "Următoarea Întrebare";
+            }
+        }
+
+        function endGame() {
+            document.getElementById("game-area").classList.add("hidden");
+            document.getElementById("result-area").classList.remove("hidden");
+            document.getElementById("final-score").textContent = score;
+        }
+
+        function updateScore() {
+            document.getElementById("score").textContent = score;
+        }
+
+        function restartGame() {
+            startGame();
+        }
+
+        function addSymbol(symbol) {
+            const input = document.getElementById("answer-input");
+            input.value += symbol;
+            input.focus();
+        }
+
+        document.getElementById("answer-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                if (!document.getElementById("submit-btn").classList.contains("hidden")) {
+                    checkAnswer();
+                } else {
+                    nextQuestion();
+                }
+            }
+        });
+
+        // Start joc
+        startGame();
+
+    </script>
+</body>
+</html>
