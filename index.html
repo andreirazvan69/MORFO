@@ -19,7 +19,7 @@
             margin: 0;
             display: flex;
             height: 100vh;
-            overflow: hidden; /* Previne scroll-ul pe body, folosim scroll intern */
+            overflow: hidden;
         }
 
         /* --- SIDEBAR NAVIGATION --- */
@@ -86,8 +86,7 @@
             position: relative;
         }
 
-        /* Secțiunile (Teorie și Quiz) */
-        .section { display: none; max-width: 800px; margin: 0 auto; }
+        .section { display: none; max-width: 800px; margin: 0 auto; padding-bottom: 50px; }
         .section.active-section { display: block; animation: fadeIn 0.3s; }
 
         @keyframes fadeIn {
@@ -95,13 +94,75 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        /* --- STILURI ECRAN START (NOU) --- */
+        .landing-container {
+            text-align: center;
+            padding-top: 50px;
+        }
+        .landing-title {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 40px;
+        }
+        .big-menu-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        .big-btn {
+            width: 200px;
+            height: 150px;
+            background-color: white;
+            border: 2px solid var(--primary-color);
+            border-radius: 15px;
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .big-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+        .big-btn span {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
         /* Stiluri pentru Teorie */
         h1 { color: var(--secondary-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-bottom: 20px; }
-        h2 { color: var(--primary-color); margin-top: 30px; }
-        p { line-height: 1.6; color: #444; font-size: 1.1rem; margin-bottom: 15px; }
-        .highlight { background-color: #fff3cd; padding: 2px 5px; border-radius: 4px; }
+        h2, h3 { color: var(--primary-color); margin-top: 30px; }
+        p { line-height: 1.6; color: #444; font-size: 1.1rem; margin-bottom: 15px; text-align: justify; }
+        ul { line-height: 1.6; font-size: 1.1rem; color: #444; }
 
-        /* Stiluri pentru Quiz (păstrate din versiunea anterioară) */
+        /* Stiluri pentru IMAGINI DIDACTICE */
+        .didactic-img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border: 1px solid #ddd;
+        }
+        .img-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: -10px;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        /* Stiluri pentru Quiz */
         .quiz-container {
             background-color: white;
             padding: 2rem;
@@ -123,6 +184,7 @@
             padding: 10px; font-size: 1.2rem; width: 70%; margin-bottom: 10px;
             border: 2px solid #ddd; border-radius: 6px; text-align: center;
         }
+        .symbol-buttons { margin-bottom: 15px; }
         .symbol-btn {
             background: #eee; border: 1px solid #ccc; padding: 5px 10px;
             margin: 2px; cursor: pointer; border-radius: 4px; font-size: 1.2rem;
@@ -137,7 +199,6 @@
         .correct { color: #28a745; font-weight: bold; }
         .wrong { color: #dc3545; font-weight: bold; }
 
-        /* Responsive Mobile */
         @media (max-width: 768px) {
             body { flex-direction: column; height: auto; overflow: auto; }
             .sidebar { width: 100%; height: auto; box-sizing: border-box; border-right: none; border-bottom: 1px solid #ddd; }
@@ -151,8 +212,13 @@
         <div class="brand">Anatomie Dentară</div>
         
         <div class="menu-group">
+            <button class="nav-btn active" onclick="switchSection('landing-page', this)">🏠 ACASĂ</button>
+        </div>
+
+        <div class="menu-group">
             <span class="menu-label">Aplicație</span>
-            <button class="nav-btn active" onclick="switchSection('quiz', this)">▶ TEST (Quiz)</button>
+            <button class="nav-btn" onclick="switchSection('quiz', this)">▶ TEST (Quiz)</button>
+            <button class="nav-btn" onclick="switchSection('completari', this)">✎ COMPLETĂRI</button>
         </div>
 
         <div class="menu-group">
@@ -170,7 +236,31 @@
 
     <main class="main-content">
 
-        <div id="quiz" class="section active-section">
+        <div id="landing-page" class="section active-section">
+            <div class="landing-container">
+                <h1 class="landing-title">Bine ai venit!</h1>
+                <p style="margin-bottom: 40px; text-align: center;">Alege o secțiune pentru a începe:</p>
+                
+                <div class="big-menu-grid">
+                    <button class="big-btn" onclick="switchSection('quiz', document.querySelectorAll('.nav-btn')[1])">
+                        <span>🎮</span>
+                        TEST
+                    </button>
+
+                    <button class="big-btn" onclick="switchSection('theory-fdi', document.querySelectorAll('.nav-btn')[3])">
+                        <span>📖</span>
+                        TEORIE
+                    </button>
+
+                    <button class="big-btn" onclick="switchSection('completari', document.querySelectorAll('.nav-btn')[2])">
+                        <span>📝</span>
+                        COMPLETĂRI
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="quiz" class="section">
             <div class="quiz-container">
                 <h1>Test Complet – Sistemele de Notare</h1>
                 
@@ -212,11 +302,23 @@
             </div>
         </div>
 
+        <div id="completari" class="section">
+            <h1>Secțiunea Completări</h1>
+            <p>Aici poți adăuga exerciții de tip "completează spațiile libere" sau informații extra.</p>
+            <div class="question-box">
+                🚧 Această pagină este în construcție. Urmează să fie adăugat conținut.
+            </div>
+        </div>
+
         <div id="theory-fdi" class="section">
             <h1>1. Sistemul de notație FDI</h1>
             <p><strong>(Federația Dentară Internațională)</strong></p>
-            [cite_start]<p>Sistemul FDI este cel mai utilizat sistem de notație dentară la nivel internațional[cite: 1], fiind adoptat de Organizația Mondială a Sănătății și de majoritatea școlilor și cabinetelor stomatologice. Acest sistem permite identificarea precisă și rapidă a fiecărui dinte, atât în dentiția permanentă, cât și în cea temporară.</p>
-            <p>Notația se bazează pe două cifre. [cite_start]Prima cifră indică <strong>cadranul dentar</strong>, iar a doua cifră indică <strong>poziția dintelui</strong> în cadrul cadranului, numerotarea făcându-se de la linia mediană spre posterior[cite: 1].</p>
+            <p>Sistemul FDI este cel mai utilizat sistem de notație dentară la nivel internațional, fiind adoptat de Organizația Mondială a Sănătății și de majoritatea școlilor și cabinetelor stomatologice.</p>
+            
+            <img src="imagini/FDI.jpg" alt="Schema FDI" class="didactic-img">
+            <div class="img-caption">Fig 1. Schema cadranelor în sistemul FDI</div>
+
+            <p>Notația se bazează pe două cifre. Prima cifră indică <strong>cadranul dentar</strong>, iar a doua cifră indică <strong>poziția dintelui</strong> în cadrul cadranului.</p>
             
             <h3>Numerotarea Cadrane (Prima cifră):</h3>
             <ul>
@@ -225,93 +327,63 @@
                 <li><strong>3</strong> – Mandibula stângă (Permanent)</li>
                 <li><strong>4</strong> – Mandibula dreaptă (Permanent)</li>
             </ul>
-            [cite_start]<p>Pentru dentiția temporară se folosesc cadranele <strong>5, 6, 7 și 8</strong>, în aceeași ordine[cite: 1].</p>
-
-            <h3>Poziția dinților (A doua cifră):</h3>
-            [cite_start]<p>Numerotată de la 1 la 8, unde 1 este incisivul central, iar 8 este molarul de minte[cite: 1].</p>
-
-            <div class="question-box">
-                <strong>Exemplu:</strong><br>
-                Dintele <strong>11</strong> = Incisivul central superior drept.<br>
-                [cite_start]Dintele <strong>36</strong> = Primul molar inferior stâng[cite: 1].
-            </div>
+            <p>Pentru dentiția temporară se folosesc cadranele <strong>5, 6, 7 și 8</strong>.</p>
         </div>
 
         <div id="theory-francez" class="section">
             <h1>2. Sistemul de notație Francez</h1>
-            [cite_start]<p>Sistemul francez este o variantă europeană derivată din sistemul Zsigmondy și a fost utilizat frecvent înainte de standardizarea internațională[cite: 2].</p>
-            [cite_start]<p>În acest sistem, dinții sunt numerotați cu cifre arabe de la <strong>1 la 8</strong>, în funcție de poziția lor pe arcadă, pornind de la incisivul central[cite: 2].</p>
-            <p>Cadranul din care face parte dintele este indicat prin semne grafice (linii orizontale sau verticale) plasate în jurul cifrei sau, în unele variații, prin litere (D - Dreapta, S - Stânga) combinate cu numere.</p>
+            <p>Sistemul francez este o variantă europeană derivată din sistemul Zsigmondy.</p>
             
-            [cite_start]<p>Deși sistemul este intuitiv pe diagrame și desene, dezavantajul său constă în dificultatea utilizării în scrierea rapidă și în documentele digitale[cite: 2].</p>
+            <img src="imagini/FRANCEZ.jpg" alt="Schema Franceza" class="didactic-img">
+            
+            <p>În acest sistem, dinții sunt numerotați cu cifre arabe de la <strong>1 la 8</strong>, în funcție de poziția lor pe arcadă, pornind de la incisivul central.</p>
         </div>
 
         <div id="theory-unghiular" class="section">
             <h1>3. Sistemul de notație Unghiular (Zsigmondy)</h1>
-            [cite_start]<p>Sistemul unghiular este unul dintre cele mai vechi sisteme de notație dentară[cite: 3]. În acest sistem, dinții sunt numerotați de la 1 la 8, începând cu incisivul central și terminând cu molarul de minte.</p>
-            [cite_start]<p>Poziția dintelui pe arcadă este indicată printr-un <strong>simbol unghiular</strong> care reprezintă cadranul[cite: 3]:</p>
-            <ul>
-                <li><strong>┘</strong> : Superior Drept</li>
-                <li><strong>└</strong> : Superior Stâng</li>
-                <li><strong>┐</strong> : Inferior Drept</li>
-                <li><strong>┌</strong> : Inferior Stâng</li>
-            </ul>
+            <p>Sistemul unghiular, cunoscut și sub numele de sistemul Zsigmondy, este unul dintre cele mai vechi sisteme de notație dentară.</p>
             
+            <img src="imagini/UNGHIULAR.jpg" alt="Sistemul Unghiular" class="didactic-img">
+            <div class="img-caption">Fig 3. Simbolurile unghiulare pentru fiecare cadran</div>
+
+            <p>Poziția dintelui pe arcadă este indicată printr-un <strong>simbol unghiular</strong> care reprezintă cadranul.</p>
             <div class="question-box">
                 <strong>Exemplu:</strong><br>
-                [cite_start]<strong>1┘</strong> = Incisivul central superior drept[cite: 3].
+                <strong>1┘</strong> = Incisivul central superior drept.
             </div>
-            <p>Avantajul sistemului unghiular este reprezentarea vizuală foarte clară pe schemele dentare.</p>
         </div>
 
         <div id="theory-aritmetic" class="section">
             <h1>4. Sistemul de notație Aritmetic</h1>
-            [cite_start]<p>Sistemul aritmetic este un sistem numeric simplificat, în care dinții sunt numerotați consecutiv, fără a se face referire directă la cadrane[cite: 4].</p>
+            <p>Sistemul aritmetic este un sistem numeric simplificat, în care dinții sunt numerotați consecutiv.</p>
+            
+             <img src="imagini/ARITMETIC.jpg" alt="Sistemul Aritmetic" class="didactic-img">
+
             <ul>
                 <li><strong>Dentiție permanentă:</strong> Numerotare de la 1 la 32.</li>
                 <li><strong>Dentiție temporară:</strong> Numerotare de la 1 la 20.</li>
             </ul>
-            [cite_start]<p>Numerotarea începe convențional de la molarul de minte superior drept și continuă pe întreaga arcadă, până la ultimul dinte inferior drept (în sens orar, dacă privim pacientul din față)[cite: 4].</p>
-
-            <div class="question-box">
-                <strong>Exemplu:</strong><br>
-                Dintele <strong>1</strong> = Molarul de minte superior drept.<br>
-                [cite_start]Dintele <strong>32</strong> = Molarul de minte inferior drept[cite: 4].
-            </div>
-            
-            <p>Uneori se folosesc semnele <strong>+</strong> (maxilar) și <strong>-</strong> (mandibulă) pentru a diferenția arcadele (ex: 1+ vs 1-).</p>
         </div>
 
         <div id="theory-american" class="section">
             <h1>5. Sistemul de notație American (Universal)</h1>
-            [cite_start]<p>Cunoscut și sub numele de sistem universal, este folosit în principal în Statele Unite ale Americii[cite: 5].</p>
+            <p>Cunoscut și sub numele de sistem universal, este folosit în principal în Statele Unite ale Americii.</p>
+            
+            <img src="imagini/AMERICAN.jpg" alt="Sistemul American" class="didactic-img">
+
             <ul>
                 <li><strong>Dinți permanenți:</strong> Numerotați de la 1 la 32.</li>
-                [cite_start]<li><strong>Dinți temporari:</strong> Notați cu literele A–T[cite: 5].</li>
+                <li><strong>Dinți temporari:</strong> Notați cu literele A–T.</li>
             </ul>
-            [cite_start]<p>Numerotarea începe cu molarul de minte superior drept (1), continuă pe arcada superioară până la molarul de minte superior stâng (16), apoi coboară pe arcada inferioară stângă (17) și continuă până la molarul de minte inferior drept (32)[cite: 5].</p>
-            
-            <div class="question-box">
-                <strong>Exemplu:</strong><br>
-                Dintele <strong>8</strong> = Incisivul central superior drept.<br>
-                [cite_start]Dintele <strong>19</strong> = Primul molar inferior stâng[cite: 5].
-            </div>
         </div>
 
         <div id="theory-palmer" class="section">
             <h1>6. Sistemul de notație Palmer</h1>
-            [cite_start]<p>Sistemul Palmer este frecvent utilizat în <strong>ortodonție</strong>[cite: 6].</p>
-            <ul>
-                <li><strong>Dinți permanenți:</strong> Numerotați de la 1 la 8.</li>
-                [cite_start]<li><strong>Dinți temporari:</strong> Notați cu litere de la A la E[cite: 6].</li>
-            </ul>
-            <p>Cadranul este indicat printr-un simbol în formă de L (unghiular), similar cu sistemul Zsigmondy.</p>
+            <p>Sistemul Palmer este frecvent utilizat în <strong>ortodonție</strong>.</p>
             
-            <div class="question-box">
-                <strong>Exemplu:</strong><br>
-                <strong>┘A</strong> = Incisiv central temporar superior drept.
-            </div>
-            [cite_start]<p>Principalul avantaj este claritatea vizuală pentru planurile de tratament[cite: 6].</p>
+            <img src="imagini/PALMER.jpg" alt="Sistemul Palmer" class="didactic-img">
+
+            <p>Cadranul este indicat printr-un simbol în formă de L (unghiular), plasat lângă cifra sau litera dintelui.</p>
         </div>
 
     </main>
@@ -321,21 +393,21 @@
         // NAVIGARE & UI LOGIC
         // =====================================================================
         function switchSection(sectionId, btnElement) {
-            // 1. Ascunde toate secțiunile
             document.querySelectorAll('.section').forEach(el => el.classList.remove('active-section'));
-            
-            // 2. Afișează secțiunea dorită
             document.getElementById(sectionId).classList.add('active-section');
             
-            // 3. Actualizează butonul activ în meniu
+            // Gestionare butoane active sidebar
             document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
             if(btnElement) {
                 btnElement.classList.add('active');
+            } else {
+                // Dacă funcția e apelată fără buton (ex: din meniul mare), încercăm să găsim butonul corespunzător în sidebar
+                // Această logică e simplificată în HTML-ul de mai sus prin trimiterea directă a elementului
             }
         }
 
         // =====================================================================
-        // QUIZ LOGIC (Neschimbat, integrat)
+        // QUIZ LOGIC
         // =====================================================================
         const dinti = [
             // --- TEMPORARI MAXILAR ---
@@ -495,7 +567,7 @@
             }
         });
 
-        // Initialize game
+        // Start joc
         startGame();
 
     </script>
