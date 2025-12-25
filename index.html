@@ -136,7 +136,7 @@
         /* --- STILURI ECRAN START --- */
         .landing-container {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 50px; /* Mai mult spatiu sus */
         }
         .landing-title {
             font-size: 2.5rem;
@@ -178,46 +178,7 @@
             display: block;
         }
 
-        /* --- ACCES RAPID TEORIE (LANDING PAGE) --- */
-        .theory-shortcuts {
-            border-top: 1px solid #ddd;
-            padding-top: 30px;
-            text-align: center;
-        }
-        .shortcuts-title {
-            color: #666;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .shortcuts-grid {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        .shortcut-btn {
-            background-color: white;
-            border: 1px solid #ccc;
-            padding: 12px 20px;
-            border-radius: 30px;
-            color: var(--secondary-color);
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.95rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .shortcut-btn:hover {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        }
-
-        /* --- NAVIGARE INTRE PAGINI TEORIE (NOU) --- */
+        /* --- NAVIGARE INTRE PAGINI TEORIE --- */
         .theory-footer-nav {
             margin-top: 50px;
             padding-top: 20px;
@@ -376,19 +337,6 @@
                         COMPLETĂRI
                     </button>
                 </div>
-
-                <div class="theory-shortcuts">
-                    <div class="shortcuts-title">Acces Rapid - Sisteme de Notație</div>
-                    <div class="shortcuts-grid">
-                        <button class="shortcut-btn" onclick="switchSection('theory-fdi', document.getElementById('nav-fdi'))">1. FDI</button>
-                        <button class="shortcut-btn" onclick="switchSection('theory-francez', document.getElementById('nav-francez'))">2. Francez</button>
-                        <button class="shortcut-btn" onclick="switchSection('theory-unghiular', document.getElementById('nav-unghiular'))">3. Unghiular</button>
-                        <button class="shortcut-btn" onclick="switchSection('theory-aritmetic', document.getElementById('nav-aritmetic'))">4. Aritmetic</button>
-                        <button class="shortcut-btn" onclick="switchSection('theory-american', document.getElementById('nav-american'))">5. American</button>
-                        <button class="shortcut-btn" onclick="switchSection('theory-palmer', document.getElementById('nav-palmer'))">6. Palmer</button>
-                    </div>
-                </div>
-
             </div>
         </div>
 
