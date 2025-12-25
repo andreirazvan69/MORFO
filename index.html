@@ -3,26 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MORFO</title>
+    <title>Anatomie Dentară: Teorie și Quiz</title>
     <style>
         :root {
             --primary-color: #0056b3;
             --secondary-color: #2c3e50;
             --accent-color: #d63384;
             --bg-color: #f0f2f5;
-            --sidebar-width: 260px;
+            --sidebar-width: 280px;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             margin: 0;
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
+            /* Am scos display:flex pentru a permite meniului sa fie "peste" continut */
+            overflow-x: hidden; 
         }
 
-        /* --- SIDEBAR NAVIGATION --- */
+        /* --- BUTONUL DE DECLANȘARE (TRIGGER) --- */
+        .menu-trigger {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 2000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+        }
+        
+        .menu-trigger span {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .menu-trigger:hover {
+            transform: scale(1.05);
+            background-color: #004494;
+        }
+
+        /* --- SIDEBAR NAVIGATION (GLISANT) --- */
         .sidebar {
             width: var(--sidebar-width);
             background-color: white;
@@ -30,9 +59,24 @@
             display: flex;
             flex-direction: column;
             padding: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.05);
+            padding-top: 80px; /* Loc pentru buton sa nu se suprapuna */
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
             overflow-y: auto;
-            flex-shrink: 0;
+            
+            /* PROPRIETĂȚI PENTRU GLISARE */
+            position: fixed;
+            left: -320px; /* Ascuns complet in stanga (width + padding) */
+            top: 0;
+            height: 100vh;
+            z-index: 1900; /* Sub buton, dar peste continut */
+            transition: left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Animatie lina */
+        }
+
+        /* LOGICA DE GLISARE: 
+           Dacă ești cu mouse-ul pe buton SAU pe meniu, meniul apare */
+        .menu-trigger:hover + .sidebar,
+        .sidebar:hover {
+            left: 0;
         }
 
         .brand {
@@ -80,24 +124,24 @@
 
         /* --- MAIN CONTENT AREA --- */
         .main-content {
-            flex-grow: 1;
-            padding: 40px;
-            overflow-y: auto;
-            position: relative;
+            max-width: 1000px;
+            margin: 0 auto; /* Centrat pe mijlocul ecranului */
+            padding: 40px 20px;
+            padding-top: 80px; /* Spatiu sus sa nu acopere butonul continutul */
         }
 
-        .section { display: none; max-width: 800px; margin: 0 auto; padding-bottom: 50px; }
-        .section.active-section { display: block; animation: fadeIn 0.3s; }
+        .section { display: none; margin: 0 auto; padding-bottom: 50px; }
+        .section.active-section { display: block; animation: fadeIn 0.5s; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- STILURI ECRAN START (NOU) --- */
+        /* --- STILURI ECRAN START --- */
         .landing-container {
             text-align: center;
-            padding-top: 50px;
+            margin-top: 20px;
         }
         .landing-title {
             font-size: 2.5rem;
@@ -111,8 +155,8 @@
             flex-wrap: wrap;
         }
         .big-btn {
-            width: 200px;
-            height: 150px;
+            width: 220px;
+            height: 160px;
             background-color: white;
             border: 2px solid var(--primary-color);
             border-radius: 15px;
@@ -120,7 +164,7 @@
             color: var(--primary-color);
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -129,11 +173,12 @@
         .big-btn:hover {
             background-color: var(--primary-color);
             color: white;
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
         .big-btn span {
             font-size: 3rem;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             display: block;
         }
 
@@ -169,6 +214,8 @@
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
         }
         .score-board { font-size: 1.2rem; margin-bottom: 1rem; color: #555; }
         .question-box {
@@ -199,14 +246,20 @@
         .correct { color: #28a745; font-weight: bold; }
         .wrong { color: #dc3545; font-weight: bold; }
 
+        /* Stil mobil */
         @media (max-width: 768px) {
-            body { flex-direction: column; height: auto; overflow: auto; }
-            .sidebar { width: 100%; height: auto; box-sizing: border-box; border-right: none; border-bottom: 1px solid #ddd; }
-            .main-content { padding: 20px; overflow: visible; }
+            .menu-trigger { top: 10px; left: 10px; padding: 8px 12px; }
+            .sidebar { width: 80%; left: -90%; }
+            /* Pe mobil trebuie sa dai click pe meniu ca sa apara, hover e mai greu */
+            .menu-trigger:focus + .sidebar, .sidebar:focus-within { left: 0; }
         }
     </style>
 </head>
 <body>
+
+    <button class="menu-trigger">
+        ☰ <span>MENIU</span>
+    </button>
 
     <nav class="sidebar">
         <div class="brand">Anatomie Dentară</div>
@@ -400,9 +453,6 @@
             document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
             if(btnElement) {
                 btnElement.classList.add('active');
-            } else {
-                // Dacă funcția e apelată fără buton (ex: din meniul mare), încercăm să găsim butonul corespunzător în sidebar
-                // Această logică e simplificată în HTML-ul de mai sus prin trimiterea directă a elementului
             }
         }
 
