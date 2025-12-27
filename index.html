@@ -136,7 +136,7 @@
         /* --- STILURI ECRAN START --- */
         .landing-container {
             text-align: center;
-            margin-top: 50px; /* Mai mult spatiu sus */
+            margin-top: 50px;
         }
         .landing-title {
             font-size: 2.5rem;
@@ -213,8 +213,7 @@
         h2, h3 { color: var(--primary-color); margin-top: 30px; }
         p { line-height: 1.6; color: #444; font-size: 1.1rem; margin-bottom: 15px; text-align: justify; }
         ul { line-height: 1.6; font-size: 1.1rem; color: #444; }
-
-        /* Stiluri Imagini */
+        
         .didactic-img {
             display: block;
             max-width: 100%;
@@ -224,26 +223,17 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
             border: 1px solid #ddd;
         }
-        .img-caption {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: -10px;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
 
-        /* Stiluri Quiz */
+        /* Stiluri Quiz & Completari */
         .quiz-container {
             background-color: white;
             padding: 2rem;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             text-align: center;
-            max-width: 700px;
+            max-width: 900px; /* Am marit pentru tabel */
             margin: 0 auto;
         }
-        .score-board { font-size: 1.2rem; margin-bottom: 1rem; color: #555; }
         .question-box {
             background: #e9f5ff;
             padding: 1.5rem;
@@ -253,16 +243,11 @@
         }
         .tooth-name { font-weight: bold; color: var(--primary-color); font-size: 1.3rem; display: block; margin: 10px 0; }
         .system-name { font-weight: bold; color: var(--accent-color); }
+        
         input[type="text"] {
-            padding: 10px; font-size: 1.2rem; width: 70%; margin-bottom: 10px;
+            padding: 8px; font-size: 1.1rem; 
             border: 2px solid #ddd; border-radius: 6px; text-align: center;
         }
-        .symbol-buttons { margin-bottom: 15px; }
-        .symbol-btn {
-            background: #eee; border: 1px solid #ccc; padding: 5px 10px;
-            margin: 2px; cursor: pointer; border-radius: 4px; font-size: 1.2rem;
-        }
-        .symbol-btn:hover { background: #ddd; }
         .action-btn {
             background-color: #28a745; color: white; border: none; padding: 12px 24px;
             font-size: 1rem; border-radius: 6px; cursor: pointer; transition: background 0.3s;
@@ -272,6 +257,65 @@
         .correct { color: #28a745; font-weight: bold; }
         .wrong { color: #dc3545; font-weight: bold; }
 
+        /* --- STILURI SPECIFICE COMPLETĂRI (Grid Anatomic) --- */
+        .completion-controls { margin-bottom: 20px; text-align: center; }
+        .completion-controls select { padding: 10px; font-size: 1rem; border-radius: 5px; }
+        
+        .dental-arch-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .arch-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px; /* Spatiu intre stanga si dreapta (linia mediana) */
+        }
+        
+        .quadrant {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .quadrant.reverse {
+            flex-direction: row-reverse; /* Pentru partea dreapta a pacientului */
+        }
+
+        .tooth-input-box {
+            width: 35px;
+            height: 35px;
+            font-size: 0.9rem;
+            padding: 2px;
+            border: 1px solid #bbb;
+        }
+        .tooth-input-box.correct-bg { background-color: #d4edda; border-color: #28a745; }
+        .tooth-input-box.wrong-bg { background-color: #f8d7da; border-color: #dc3545; }
+        
+        .arch-label {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 5px 0;
+            font-weight: bold;
+        }
+        
+        .median-line {
+            width: 2px;
+            background-color: #ccc;
+            margin: 0 10px;
+        }
+        
+        .helper-img {
+            max-width: 250px;
+            margin: 0 auto 20px auto;
+            display: block;
+            opacity: 0.8;
+        }
+
         /* Stil mobil */
         @media (max-width: 768px) {
             .menu-trigger { top: 10px; left: 10px; padding: 8px 12px; }
@@ -279,6 +323,11 @@
             .menu-trigger:focus + .sidebar, .sidebar:focus-within { left: 0; }
             .theory-footer-nav { flex-direction: column; }
             .nav-link-btn { width: 100%; justify-content: center; }
+            
+            /* Ajustare grid completari pe mobil */
+            .tooth-input-box { width: 25px; height: 30px; font-size: 0.7rem; padding: 0; }
+            .arch-row { gap: 10px; }
+            .quadrant { gap: 2px; }
         }
     </style>
 </head>
@@ -323,18 +372,13 @@
                 
                 <div class="big-menu-grid">
                     <button class="big-btn" onclick="switchSection('quiz', document.getElementById('nav-quiz'))">
-                        <span>🎮</span>
-                        TEST
+                        <span>🎮</span> TEST
                     </button>
-
                     <button class="big-btn" onclick="switchSection('theory-fdi', document.getElementById('nav-fdi'))">
-                        <span>📖</span>
-                        TEORIE
+                        <span>📖</span> TEORIE
                     </button>
-
                     <button class="big-btn" onclick="switchSection('completari', document.getElementById('nav-completari'))">
-                        <span>📝</span>
-                        COMPLETĂRI
+                        <span>📝</span> COMPLETĂRI
                     </button>
                 </div>
             </div>
@@ -343,37 +387,32 @@
         <div id="quiz" class="section">
             <div class="quiz-container">
                 <h1>Test Complet – Sistemele de Notare</h1>
-                
                 <div id="game-area">
                     <div class="score-board">
                         Întrebarea <span id="current-q">1</span>/10 | Scor: <span id="score">0</span>
                     </div>
-
                     <div class="question-box">
                         <div class="question-text">
                             Ce notație are acest dinte în sistemul <span id="system-display" class="system-name"></span>?
                         </div>
                         <span id="tooth-display" class="tooth-name"></span>
                     </div>
-
                     <div class="symbol-buttons">
-                        <button class="symbol-btn" onclick="addSymbol('┘')">┘</button>
-                        <button class="symbol-btn" onclick="addSymbol('└')">└</button>
-                        <button class="symbol-btn" onclick="addSymbol('┐')">┐</button>
-                        <button class="symbol-btn" onclick="addSymbol('┌')">┌</button>
-                        <button class="symbol-btn" onclick="addSymbol('├')">├</button>
-                        <button class="symbol-btn" onclick="addSymbol('+')">+</button>
-                        <button class="symbol-btn" onclick="addSymbol('-')">-</button>
+                        <button class="symbol-btn" onclick="addSymbolToQuiz('┘')">┘</button>
+                        <button class="symbol-btn" onclick="addSymbolToQuiz('└')">└</button>
+                        <button class="symbol-btn" onclick="addSymbolToQuiz('┐')">┐</button>
+                        <button class="symbol-btn" onclick="addSymbolToQuiz('┌')">┌</button>
+                        <button class="symbol-btn" onclick="addSymbolToQuiz('├')">├</button>
+                        <button class="symbol-btn" onclick="addSymbolToQuiz('+')">+</button>
+                        <button class="symbol-btn" onclick="addSymbolToQuiz('-')">-</button>
                     </div>
 
-                    <input type="text" id="answer-input" placeholder="Scrie răspunsul aici..." autocomplete="off">
-                    <br>
+                    <input type="text" id="answer-input" placeholder="Răspuns..." autocomplete="off">
+                    <br><br>
                     <button id="submit-btn" class="action-btn" onclick="checkAnswer()">Verifică</button>
                     <button id="next-btn" class="action-btn hidden" onclick="nextQuestion()">Următoarea Întrebare</button>
-                    
                     <div id="feedback"></div>
                 </div>
-
                 <div id="result-area" class="hidden">
                     <h2>Test Finalizat!</h2>
                     <p>Scorul tău final este: <strong id="final-score"></strong>/10</p>
@@ -383,10 +422,31 @@
         </div>
 
         <div id="completari" class="section">
-            <h1>Secțiunea Completări</h1>
-            <p>Aici poți adăuga exerciții de tip "completează spațiile libere" sau informații extra.</p>
-            <div class="question-box">
-                🚧 Această pagină este în construcție. Urmează să fie adăugat conținut.
+            <div class="quiz-container" style="max-width: 1000px;">
+                <h1>Exercițiu de Completare - Harta Dentară</h1>
+                <p>Completează codurile pentru fiecare dinte în funcție de sistemul ales. Respectă poziția anatomică.</p>
+                
+                <div class="completion-controls">
+                    <label for="system-select"><strong>Alege Sistemul:</strong> </label>
+                    <select id="system-select" onchange="resetCompletionGrid()">
+                        <option value="FDI">FDI (Internațional)</option>
+                        <option value="Francez">Francez</option>
+                        <option value="Unghiular">Unghiular (Zsigmondy)</option>
+                        <option value="Aritmetic">Aritmetic</option>
+                        <option value="American">American</option>
+                        <option value="Palmer">Palmer</option>
+                    </select>
+                </div>
+
+                <img src="blank.jpg" alt="Schema Dentara" class="helper-img">
+
+                <div class="dental-arch-container" id="dental-grid">
+                    </div>
+
+                <div style="margin-top: 30px;">
+                    <button class="action-btn" onclick="checkCompletion()">Verifică Răspunsurile</button>
+                    <button class="action-btn" style="background-color: #6c757d;" onclick="resetCompletionGrid()">Resetează</button>
+                </div>
             </div>
         </div>
 
@@ -397,14 +457,6 @@
             <img src="imagini/FDI.jpg" alt="Schema FDI" class="didactic-img">
             <div class="img-caption">Fig 1. Schema cadranelor în sistemul FDI</div>
             <p>Notația se bazează pe două cifre. Prima cifră indică cadranul dentar, iar a doua cifră indică poziția dintelui.</p>
-            <h3>Numerotarea Cadrane:</h3>
-            <ul>
-                <li><strong>1</strong> – Maxilarul drept (Permanent)</li>
-                <li><strong>2</strong> – Maxilarul stâng (Permanent)</li>
-                <li><strong>3</strong> – Mandibula stângă (Permanent)</li>
-                <li><strong>4</strong> – Mandibula dreaptă (Permanent)</li>
-            </ul>
-            
             <div class="theory-footer-nav">
                 <button class="nav-link-btn" onclick="switchSection('landing-page', document.getElementById('nav-acasa'))">🏠 Acasă</button>
                 <button class="nav-link-btn" onclick="switchSection('theory-francez', document.getElementById('nav-francez'))">Sistemul Francez ➡</button>
@@ -412,68 +464,46 @@
         </div>
 
         <div id="theory-francez" class="section">
-            <h1>2. Sistemul de notație Francez</h1>
-            <p>Sistemul francez este o variantă europeană derivată din sistemul Zsigmondy.</p>
-            <img src="imagini/FRANCEZ.jpg" alt="Schema Franceza" class="didactic-img">
-            <p>În acest sistem, dinții sunt numerotați cu cifre arabe de la 1 la 8, în funcție de poziția lor pe arcadă.</p>
-            
+            <h1>2. Sistemul Francez</h1>
+            <img src="imagini/FRANCEZ.jpg" class="didactic-img">
             <div class="theory-footer-nav">
-                <button class="nav-link-btn" onclick="switchSection('theory-fdi', document.getElementById('nav-fdi'))">⬅ Sistemul FDI</button>
-                <button class="nav-link-btn" onclick="switchSection('theory-unghiular', document.getElementById('nav-unghiular'))">Sistemul Unghiular ➡</button>
+                <button class="nav-link-btn" onclick="switchSection('theory-fdi', document.getElementById('nav-fdi'))">⬅ FDI</button>
+                <button class="nav-link-btn" onclick="switchSection('theory-unghiular', document.getElementById('nav-unghiular'))">Unghiular ➡</button>
             </div>
         </div>
-
+        
         <div id="theory-unghiular" class="section">
-            <h1>3. Sistemul de notație Unghiular (Zsigmondy)</h1>
-            <p>Sistemul unghiular este unul dintre cele mai vechi sisteme de notație dentară.</p>
-            <img src="imagini/UNGHIULAR.jpg" alt="Sistemul Unghiular" class="didactic-img">
-            <div class="img-caption">Fig 3. Simbolurile unghiulare pentru fiecare cadran</div>
-            <p>Poziția dintelui pe arcadă este indicată printr-un simbol unghiular care reprezintă cadranul.</p>
-            
+            <h1>3. Sistemul Unghiular</h1>
+            <img src="imagini/UNGHIULAR.jpg" class="didactic-img">
             <div class="theory-footer-nav">
-                <button class="nav-link-btn" onclick="switchSection('theory-francez', document.getElementById('nav-francez'))">⬅ Sistemul Francez</button>
-                <button class="nav-link-btn" onclick="switchSection('theory-aritmetic', document.getElementById('nav-aritmetic'))">Sistemul Aritmetic ➡</button>
+                <button class="nav-link-btn" onclick="switchSection('theory-francez', document.getElementById('nav-francez'))">⬅ Francez</button>
+                <button class="nav-link-btn" onclick="switchSection('theory-aritmetic', document.getElementById('nav-aritmetic'))">Aritmetic ➡</button>
             </div>
         </div>
 
         <div id="theory-aritmetic" class="section">
-            <h1>4. Sistemul de notație Aritmetic</h1>
-            <p>Sistemul aritmetic este un sistem numeric simplificat.</p>
-            <img src="imagini/ARITMETIC.jpg" alt="Sistemul Aritmetic" class="didactic-img">
-            <ul>
-                <li><strong>Dentiție permanentă:</strong> Numerotare de la 1 la 32.</li>
-                <li><strong>Dentiție temporară:</strong> Numerotare de la 1 la 20.</li>
-            </ul>
-            
+            <h1>4. Sistemul Aritmetic</h1>
+            <img src="imagini/ARITMETIC.jpg" class="didactic-img">
             <div class="theory-footer-nav">
-                <button class="nav-link-btn" onclick="switchSection('theory-unghiular', document.getElementById('nav-unghiular'))">⬅ Sistemul Unghiular</button>
-                <button class="nav-link-btn" onclick="switchSection('theory-american', document.getElementById('nav-american'))">Sistemul American ➡</button>
+                <button class="nav-link-btn" onclick="switchSection('theory-unghiular', document.getElementById('nav-unghiular'))">⬅ Unghiular</button>
+                <button class="nav-link-btn" onclick="switchSection('theory-american', document.getElementById('nav-american'))">American ➡</button>
             </div>
         </div>
 
         <div id="theory-american" class="section">
-            <h1>5. Sistemul de notație American (Universal)</h1>
-            <p>Cunoscut și sub numele de sistem universal, este folosit în principal în Statele Unite.</p>
-            <img src="imagini/AMERICAN.jpg" alt="Sistemul American" class="didactic-img">
-            <ul>
-                <li><strong>Dinți permanenți:</strong> Numerotați de la 1 la 32.</li>
-                <li><strong>Dinți temporari:</strong> Notați cu literele A–T.</li>
-            </ul>
-            
+            <h1>5. Sistemul American</h1>
+            <img src="imagini/AMERICAN.jpg" class="didactic-img">
             <div class="theory-footer-nav">
-                <button class="nav-link-btn" onclick="switchSection('theory-aritmetic', document.getElementById('nav-aritmetic'))">⬅ Sistemul Aritmetic</button>
-                <button class="nav-link-btn" onclick="switchSection('theory-palmer', document.getElementById('nav-palmer'))">Sistemul Palmer ➡</button>
+                <button class="nav-link-btn" onclick="switchSection('theory-aritmetic', document.getElementById('nav-aritmetic'))">⬅ Aritmetic</button>
+                <button class="nav-link-btn" onclick="switchSection('theory-palmer', document.getElementById('nav-palmer'))">Palmer ➡</button>
             </div>
         </div>
 
         <div id="theory-palmer" class="section">
-            <h1>6. Sistemul de notație Palmer</h1>
-            <p>Sistemul Palmer este frecvent utilizat în ortodonție.</p>
-            <img src="imagini/PALMER.jpg" alt="Sistemul Palmer" class="didactic-img">
-            <p>Cadranul este indicat printr-un simbol în formă de L (unghiular).</p>
-            
+            <h1>6. Sistemul Palmer</h1>
+            <img src="imagini/PALMER.jpg" class="didactic-img">
             <div class="theory-footer-nav">
-                <button class="nav-link-btn" onclick="switchSection('theory-american', document.getElementById('nav-american'))">⬅ Sistemul American</button>
+                <button class="nav-link-btn" onclick="switchSection('theory-american', document.getElementById('nav-american'))">⬅ American</button>
                 <button class="nav-link-btn" onclick="switchSection('landing-page', document.getElementById('nav-acasa'))">🏠 Acasă</button>
             </div>
         </div>
@@ -482,85 +512,189 @@
 
     <script>
         // =====================================================================
-        // NAVIGARE & UI LOGIC
+        // DATA SET
+        // =====================================================================
+        const dinti = [
+            // --- TEMPORARI MAXILAR ---
+            {id: "temp_ur_1", nume: "Incisiv Central Drept Temp", FDI: "51", Francez: "DI", Unghiular: "LI", Aritmetic: "1+", American: "E", Palmer: "┘A", quadrant: "UR_TEMP", pos: 1},
+            {id: "temp_ul_1", nume: "Incisiv Central Stâng Temp", FDI: "61", Francez: "SI", Unghiular: "I├", Aritmetic: "+1", American: "F", Palmer: "└A", quadrant: "UL_TEMP", pos: 1},
+            {id: "temp_ur_2", nume: "Incisiv Lateral Drept Temp", FDI: "52", Francez: "DII", Unghiular: "LII", Aritmetic: "2+", American: "D", Palmer: "┘B", quadrant: "UR_TEMP", pos: 2},
+            {id: "temp_ul_2", nume: "Incisiv Lateral Stâng Temp", FDI: "62", Francez: "SII", Unghiular: "II├", Aritmetic: "+2", American: "G", Palmer: "└B", quadrant: "UL_TEMP", pos: 2},
+            {id: "temp_ur_3", nume: "Canin Drept Temp", FDI: "53", Francez: "DIII", Unghiular: "LIII", Aritmetic: "3+", American: "C", Palmer: "┘C", quadrant: "UR_TEMP", pos: 3},
+            {id: "temp_ul_3", nume: "Canin Stâng Temp", FDI: "63", Francez: "SIII", Unghiular: "III├", Aritmetic: "+3", American: "H", Palmer: "└C", quadrant: "UL_TEMP", pos: 3},
+            {id: "temp_ur_4", nume: "Molar 1 Drept Temp", FDI: "54", Francez: "DIV", Unghiular: "LIV", Aritmetic: "4+", American: "B", Palmer: "┘D", quadrant: "UR_TEMP", pos: 4},
+            {id: "temp_ul_4", nume: "Molar 1 Stâng Temp", FDI: "64", Francez: "SIV", Unghiular: "IV├", Aritmetic: "+4", American: "I", Palmer: "└D", quadrant: "UL_TEMP", pos: 4},
+            {id: "temp_ur_5", nume: "Molar 2 Drept Temp", FDI: "55", Francez: "DV", Unghiular: "LV", Aritmetic: "5+", American: "A", Palmer: "┘E", quadrant: "UR_TEMP", pos: 5},
+            {id: "temp_ul_5", nume: "Molar 2 Stâng Temp", FDI: "65", Francez: "SV", Unghiular: "V├", Aritmetic: "+5", American: "J", Palmer: "└E", quadrant: "UL_TEMP", pos: 5},
+
+            // --- TEMPORARI MANDIBULA ---
+            {id: "temp_lr_1", nume: "Incisiv Central Drept Temp", FDI: "81", Francez: "dI", Unghiular: "I┘", Aritmetic: "1-", American: "P", Palmer: "┘A", quadrant: "LR_TEMP", pos: 1},
+            {id: "temp_ll_1", nume: "Incisiv Central Stâng Temp", FDI: "71", Francez: "sI", Unghiular: "└I", Aritmetic: "-1", American: "O", Palmer: "└A", quadrant: "LL_TEMP", pos: 1},
+            {id: "temp_lr_2", nume: "Incisiv Lateral Drept Temp", FDI: "82", Francez: "dII", Unghiular: "II┘", Aritmetic: "2-", American: "Q", Palmer: "┘B", quadrant: "LR_TEMP", pos: 2},
+            {id: "temp_ll_2", nume: "Incisiv Lateral Stâng Temp", FDI: "72", Francez: "sII", Unghiular: "└II", Aritmetic: "-2", American: "N", Palmer: "└B", quadrant: "LL_TEMP", pos: 2},
+            {id: "temp_lr_3", nume: "Canin Drept Temp", FDI: "83", Francez: "dIII", Unghiular: "III┘", Aritmetic: "3-", American: "R", Palmer: "┘C", quadrant: "LR_TEMP", pos: 3},
+            {id: "temp_ll_3", nume: "Canin Stâng Temp", FDI: "73", Francez: "sIII", Unghiular: "└III", Aritmetic: "-3", American: "M", Palmer: "└C", quadrant: "LL_TEMP", pos: 3},
+            {id: "temp_lr_4", nume: "Molar 1 Drept Temp", FDI: "84", Francez: "dIV", Unghiular: "IV┘", Aritmetic: "4-", American: "S", Palmer: "┘D", quadrant: "LR_TEMP", pos: 4},
+            {id: "temp_ll_4", nume: "Molar 1 Stâng Temp", FDI: "74", Francez: "sIV", Unghiular: "└IV", Aritmetic: "-4", American: "L", Palmer: "└D", quadrant: "LL_TEMP", pos: 4},
+            {id: "temp_lr_5", nume: "Molar 2 Drept Temp", FDI: "85", Francez: "dV", Unghiular: "V┘", Aritmetic: "5-", American: "T", Palmer: "┘E", quadrant: "LR_TEMP", pos: 5},
+            {id: "temp_ll_5", nume: "Molar 2 Stâng Temp", FDI: "75", Francez: "sV", Unghiular: "└V", Aritmetic: "-5", American: "K", Palmer: "└E", quadrant: "LL_TEMP", pos: 5},
+
+            // --- PERMANENTI MAXILAR ---
+            {id: "perm_ur_1", nume: "Central Drept", FDI: "11", Francez: "D1", Unghiular: "S1", Aritmetic: "1+", American: "8", Palmer: "┘1", quadrant: "UR_PERM", pos: 1},
+            {id: "perm_ul_1", nume: "Central Stâng", FDI: "21", Francez: "S1", Unghiular: "1├", Aritmetic: "+1", American: "9", Palmer: "└1", quadrant: "UL_PERM", pos: 1},
+            {id: "perm_ur_2", nume: "Lateral Drept", FDI: "12", Francez: "D2", Unghiular: "S2", Aritmetic: "2+", American: "7", Palmer: "┘2", quadrant: "UR_PERM", pos: 2},
+            {id: "perm_ul_2", nume: "Lateral Stâng", FDI: "22", Francez: "S2", Unghiular: "2├", Aritmetic: "+2", American: "10", Palmer: "└2", quadrant: "UL_PERM", pos: 2},
+            {id: "perm_ur_3", nume: "Canin Drept", FDI: "13", Francez: "D3", Unghiular: "S3", Aritmetic: "3+", American: "6", Palmer: "┘3", quadrant: "UR_PERM", pos: 3},
+            {id: "perm_ul_3", nume: "Canin Stâng", FDI: "23", Francez: "S3", Unghiular: "3├", Aritmetic: "+3", American: "11", Palmer: "└3", quadrant: "UL_PERM", pos: 3},
+            {id: "perm_ur_4", nume: "PM 1 Drept", FDI: "14", Francez: "D4", Unghiular: "S4", Aritmetic: "4+", American: "5", Palmer: "┘4", quadrant: "UR_PERM", pos: 4},
+            {id: "perm_ul_4", nume: "PM 1 Stâng", FDI: "24", Francez: "S4", Unghiular: "4├", Aritmetic: "+4", American: "12", Palmer: "└4", quadrant: "UL_PERM", pos: 4},
+            {id: "perm_ur_5", nume: "PM 2 Drept", FDI: "15", Francez: "D5", Unghiular: "S5", Aritmetic: "5+", American: "4", Palmer: "┘5", quadrant: "UR_PERM", pos: 5},
+            {id: "perm_ul_5", nume: "PM 2 Stâng", FDI: "25", Francez: "S5", Unghiular: "5├", Aritmetic: "+5", American: "13", Palmer: "└5", quadrant: "UL_PERM", pos: 5},
+            {id: "perm_ur_6", nume: "Molar 1 Drept", FDI: "16", Francez: "D6", Unghiular: "S6", Aritmetic: "6+", American: "3", Palmer: "┘6", quadrant: "UR_PERM", pos: 6},
+            {id: "perm_ul_6", nume: "Molar 1 Stâng", FDI: "26", Francez: "S6", Unghiular: "6├", Aritmetic: "+6", American: "14", Palmer: "└6", quadrant: "UL_PERM", pos: 6},
+            {id: "perm_ur_7", nume: "Molar 2 Drept", FDI: "17", Francez: "D7", Unghiular: "S7", Aritmetic: "7+", American: "2", Palmer: "┘7", quadrant: "UR_PERM", pos: 7},
+            {id: "perm_ul_7", nume: "Molar 2 Stâng", FDI: "27", Francez: "S7", Unghiular: "7├", Aritmetic: "+7", American: "15", Palmer: "└7", quadrant: "UL_PERM", pos: 7},
+            {id: "perm_ur_8", nume: "Molar 3 Drept", FDI: "18", Francez: "D8", Unghiular: "S8", Aritmetic: "8+", American: "1", Palmer: "┘8", quadrant: "UR_PERM", pos: 8},
+            {id: "perm_ul_8", nume: "Molar 3 Stâng", FDI: "28", Francez: "S8", Unghiular: "8├", Aritmetic: "+8", American: "16", Palmer: "└8", quadrant: "UL_PERM", pos: 8},
+
+            // --- PERMANENTI MANDIBULA ---
+            {id: "perm_lr_1", nume: "Central Drept", FDI: "41", Francez: "d1", Unghiular: "1┘", Aritmetic: "1-", American: "25", Palmer: "┘1", quadrant: "LR_PERM", pos: 1},
+            {id: "perm_ll_1", nume: "Central Stâng", FDI: "31", Francez: "s1", Unghiular: "└1", Aritmetic: "-1", American: "24", Palmer: "└1", quadrant: "LL_PERM", pos: 1},
+            {id: "perm_lr_2", nume: "Lateral Drept", FDI: "42", Francez: "d2", Unghiular: "2┘", Aritmetic: "2-", American: "26", Palmer: "┘2", quadrant: "LR_PERM", pos: 2},
+            {id: "perm_ll_2", nume: "Lateral Stâng", FDI: "32", Francez: "s2", Unghiular: "└2", Aritmetic: "-2", American: "23", Palmer: "└2", quadrant: "LL_PERM", pos: 2},
+            {id: "perm_lr_3", nume: "Canin Drept", FDI: "43", Francez: "d3", Unghiular: "3┘", Aritmetic: "3-", American: "27", Palmer: "┘3", quadrant: "LR_PERM", pos: 3},
+            {id: "perm_ll_3", nume: "Canin Stâng", FDI: "33", Francez: "s3", Unghiular: "└3", Aritmetic: "-3", American: "22", Palmer: "└3", quadrant: "LL_PERM", pos: 3},
+            {id: "perm_lr_4", nume: "PM 1 Drept", FDI: "44", Francez: "d4", Unghiular: "4┘", Aritmetic: "4-", American: "28", Palmer: "┘4", quadrant: "LR_PERM", pos: 4},
+            {id: "perm_ll_4", nume: "PM 1 Stâng", FDI: "34", Francez: "s4", Unghiular: "└4", Aritmetic: "-4", American: "21", Palmer: "└4", quadrant: "LL_PERM", pos: 4},
+            {id: "perm_lr_5", nume: "PM 2 Drept", FDI: "45", Francez: "d5", Unghiular: "5┘", Aritmetic: "5-", American: "29", Palmer: "┘5", quadrant: "LR_PERM", pos: 5},
+            {id: "perm_ll_5", nume: "PM 2 Stâng", FDI: "35", Francez: "s5", Unghiular: "└5", Aritmetic: "-5", American: "20", Palmer: "└5", quadrant: "LL_PERM", pos: 5},
+            {id: "perm_lr_6", nume: "Molar 1 Drept", FDI: "46", Francez: "d6", Unghiular: "6┘", Aritmetic: "6-", American: "30", Palmer: "┘6", quadrant: "LR_PERM", pos: 6},
+            {id: "perm_ll_6", nume: "Molar 1 Stâng", FDI: "36", Francez: "s6", Unghiular: "└6", Aritmetic: "-6", American: "19", Palmer: "└6", quadrant: "LL_PERM", pos: 6},
+            {id: "perm_lr_7", nume: "Molar 2 Drept", FDI: "47", Francez: "d7", Unghiular: "7┘", Aritmetic: "7-", American: "31", Palmer: "┘7", quadrant: "LR_PERM", pos: 7},
+            {id: "perm_ll_7", nume: "Molar 2 Stâng", FDI: "37", Francez: "s7", Unghiular: "└7", Aritmetic: "-7", American: "18", Palmer: "└7", quadrant: "LL_PERM", pos: 7},
+            {id: "perm_lr_8", nume: "Molar 3 Drept", FDI: "48", Francez: "d8", Unghiular: "8┘", Aritmetic: "8-", American: "32", Palmer: "┘8", quadrant: "LR_PERM", pos: 8},
+            {id: "perm_ll_8", nume: "Molar 3 Stâng", FDI: "38", Francez: "s8", Unghiular: "└8", Aritmetic: "-8", American: "17", Palmer: "└8", quadrant: "LL_PERM", pos: 8}
+        ];
+
+        // =====================================================================
+        // GENERAL NAV
         // =====================================================================
         function switchSection(sectionId, btnElement) {
             document.querySelectorAll('.section').forEach(el => el.classList.remove('active-section'));
             document.getElementById(sectionId).classList.add('active-section');
-            
             document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
-            if(btnElement) {
-                btnElement.classList.add('active');
-            }
-            
-            // Scroll la inceputul paginii cand se schimba sectiunea
+            if(btnElement) btnElement.classList.add('active');
             window.scrollTo(0, 0);
+
+            // Daca intram in Completari, generam gridul
+            if(sectionId === 'completari') {
+                generateCompletionGrid();
+            }
         }
+
+        // =====================================================================
+        // COMPLETION LOGIC (GENERARE TABEL)
+        // =====================================================================
+        function generateCompletionGrid() {
+            const container = document.getElementById('dental-grid');
+            container.innerHTML = '';
+
+            // 1. Rândul de sus - Permanenți
+            container.innerHTML += `
+                <div class="arch-label">Maxilar Permanent</div>
+                <div class="arch-row">
+                    <div class="quadrant reverse" id="q-ur-perm"></div> <div class="median-line"></div>
+                    <div class="quadrant" id="q-ul-perm"></div> </div>
+            `;
+            
+            // 2. Rândul de sus - Temporari (Interior)
+            container.innerHTML += `
+                <div class="arch-label">Maxilar Temporar</div>
+                <div class="arch-row">
+                    <div class="quadrant reverse" id="q-ur-temp"></div>
+                    <div class="median-line"></div>
+                    <div class="quadrant" id="q-ul-temp"></div>
+                </div>
+                <hr style="width: 100%; border: 1px dashed #ccc; margin: 10px 0;">
+            `;
+
+            // 3. Rândul de jos - Temporari (Interior)
+            container.innerHTML += `
+                <div class="arch-label">Mandibulă Temporară</div>
+                <div class="arch-row">
+                    <div class="quadrant reverse" id="q-lr-temp"></div>
+                    <div class="median-line"></div>
+                    <div class="quadrant" id="q-ll-temp"></div>
+                </div>
+            `;
+
+            // 4. Rândul de jos - Permanenți
+            container.innerHTML += `
+                <div class="arch-label">Mandibulă Permanentă</div>
+                <div class="arch-row">
+                    <div class="quadrant reverse" id="q-lr-perm"></div>
+                    <div class="median-line"></div>
+                    <div class="quadrant" id="q-ll-perm"></div>
+                </div>
+            `;
+
+            // Populare Inputs
+            populateQuadrant('UR_PERM', 'q-ur-perm');
+            populateQuadrant('UL_PERM', 'q-ul-perm');
+            populateQuadrant('UR_TEMP', 'q-ur-temp');
+            populateQuadrant('UL_TEMP', 'q-ul-temp');
+            populateQuadrant('LR_TEMP', 'q-lr-temp');
+            populateQuadrant('LL_TEMP', 'q-ll-temp');
+            populateQuadrant('LR_PERM', 'q-lr-perm');
+            populateQuadrant('LL_PERM', 'q-ll-perm');
+        }
+
+        function populateQuadrant(quadrantCode, elementId) {
+            const container = document.getElementById(elementId);
+            // Filtram dintii si ii sortam dupa pozitie (1 la linie mediana, 8 la distal)
+            const teeth = dinti.filter(t => t.quadrant === quadrantCode).sort((a, b) => a.pos - b.pos);
+            
+            teeth.forEach(tooth => {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'tooth-input-box';
+                input.dataset.id = tooth.id; // stocam ID-ul dintelui
+                input.setAttribute('title', tooth.nume); // tooltip cu numele
+                container.appendChild(input);
+            });
+        }
+
+        function checkCompletion() {
+            const selectedSystem = document.getElementById('system-select').value;
+            const inputs = document.querySelectorAll('.tooth-input-box');
+
+            inputs.forEach(input => {
+                const toothData = dinti.find(d => d.id === input.dataset.id);
+                const correctAnswer = toothData[selectedSystem];
+                
+                if(input.value.trim().toLowerCase() === correctAnswer.toLowerCase()) {
+                    input.className = 'tooth-input-box correct-bg';
+                } else {
+                    input.className = 'tooth-input-box wrong-bg';
+                }
+            });
+        }
+
+        function resetCompletionGrid() {
+            const inputs = document.querySelectorAll('.tooth-input-box');
+            inputs.forEach(input => {
+                input.value = '';
+                input.className = 'tooth-input-box';
+            });
+        }
+
 
         // =====================================================================
         // QUIZ LOGIC
         // =====================================================================
-        const dinti = [
-            // DATE DINȚI 
-            {nume: "Incisiv Central Maxilar Drept Temporar", FDI: "51", Francez: "DI", Unghiular: "LI", Aritmetic: "1+", American: "E", Palmer: "┘A"},
-            {nume: "Incisiv Central Maxilar Stâng Temporar", FDI: "61", Francez: "SI", Unghiular: "I├", Aritmetic: "+1", American: "F", Palmer: "└A"},
-            {nume: "Incisiv Lateral Maxilar Drept Temporar", FDI: "52", Francez: "DII", Unghiular: "LII", Aritmetic: "2+", American: "D", Palmer: "┘B"},
-            {nume: "Incisiv Lateral Maxilar Stâng Temporar", FDI: "62", Francez: "SII", Unghiular: "II├", Aritmetic: "+2", American: "G", Palmer: "└B"},
-            {nume: "Canin Maxilar Drept Temporar", FDI: "53", Francez: "DIII", Unghiular: "LIII", Aritmetic: "3+", American: "C", Palmer: "┘C"},
-            {nume: "Canin Maxilar Stâng Temporar", FDI: "63", Francez: "SIII", Unghiular: "III├", Aritmetic: "+3", American: "H", Palmer: "└C"},
-            {nume: "Molar 1 Maxilar Drept Temporar", FDI: "54", Francez: "DIV", Unghiular: "LIV", Aritmetic: "4+", American: "B", Palmer: "┘D"},
-            {nume: "Molar 1 Maxilar Stâng Temporar", FDI: "64", Francez: "SIV", Unghiular: "IV├", Aritmetic: "+4", American: "I", Palmer: "└D"},
-            {nume: "Molar 2 Maxilar Drept Temporar", FDI: "55", Francez: "DV", Unghiular: "LV", Aritmetic: "5+", American: "A", Palmer: "┘E"},
-            {nume: "Molar 2 Maxilar Stâng Temporar", FDI: "65", Francez: "SV", Unghiular: "V├", Aritmetic: "+5", American: "J", Palmer: "└E"},
-            {nume: "Incisiv Central Mandibular Drept Temporar", FDI: "81", Francez: "dI", Unghiular: "I┘", Aritmetic: "1-", American: "P", Palmer: "┘A"},
-            {nume: "Incisiv Central Mandibular Stâng Temporar", FDI: "71", Francez: "sI", Unghiular: "└I", Aritmetic: "-1", American: "O", Palmer: "└A"},
-            {nume: "Incisiv Lateral Mandibular Drept Temporar", FDI: "82", Francez: "dII", Unghiular: "II┘", Aritmetic: "2-", American: "Q", Palmer: "┘B"},
-            {nume: "Incisiv Lateral Mandibular Stâng Temporar", FDI: "72", Francez: "sII", Unghiular: "└II", Aritmetic: "-2", American: "N", Palmer: "└B"},
-            {nume: "Canin Mandibular Drept Temporar", FDI: "83", Francez: "dIII", Unghiular: "III┘", Aritmetic: "3-", American: "R", Palmer: "┘C"},
-            {nume: "Canin Mandibular Stâng Temporar", FDI: "73", Francez: "sIII", Unghiular: "└III", Aritmetic: "-3", American: "M", Palmer: "└C"},
-            {nume: "Molar 1 Mandibular Drept Temporar", FDI: "84", Francez: "dIV", Unghiular: "IV┘", Aritmetic: "4-", American: "S", Palmer: "┘D"},
-            {nume: "Molar 1 Mandibular Stâng Temporar", FDI: "74", Francez: "sIV", Unghiular: "└IV", Aritmetic: "-4", American: "L", Palmer: "└D"},
-            {nume: "Molar 2 Mandibular Drept Temporar", FDI: "85", Francez: "dV", Unghiular: "V┘", Aritmetic: "5-", American: "T", Palmer: "┘E"},
-            {nume: "Molar 2 Mandibular Stâng Temporar", FDI: "75", Francez: "sV", Unghiular: "└V", Aritmetic: "-5", American: "K", Palmer: "└E"},
-            {nume: "Incisiv Central Maxilar Drept Permanent", FDI: "11", Francez: "D1", Unghiular: "S1", Aritmetic: "1+", American: "8", Palmer: "┘1"},
-            {nume: "Incisiv Central Maxilar Stâng Permanent", FDI: "21", Francez: "S1", Unghiular: "1├", Aritmetic: "+1", American: "9", Palmer: "└1"},
-            {nume: "Incisiv Lateral Maxilar Drept Permanent", FDI: "12", Francez: "D2", Unghiular: "S2", Aritmetic: "2+", American: "7", Palmer: "┘2"},
-            {nume: "Incisiv Lateral Maxilar Stâng Permanent", FDI: "22", Francez: "S2", Unghiular: "2├", Aritmetic: "+2", American: "10", Palmer: "└2"},
-            {nume: "Canin Maxilar Drept Permanent", FDI: "13", Francez: "D3", Unghiular: "S3", Aritmetic: "3+", American: "6", Palmer: "┘3"},
-            {nume: "Canin Maxilar Stâng Permanent", FDI: "23", Francez: "S3", Unghiular: "3├", Aritmetic: "+3", American: "11", Palmer: "└3"},
-            {nume: "Premolar 1 Maxilar Drept Permanent", FDI: "14", Francez: "D4", Unghiular: "S4", Aritmetic: "4+", American: "5", Palmer: "┘4"},
-            {nume: "Premolar 1 Maxilar Stâng Permanent", FDI: "24", Francez: "S4", Unghiular: "4├", Aritmetic: "+4", American: "12", Palmer: "└4"},
-            {nume: "Premolar 2 Maxilar Drept Permanent", FDI: "15", Francez: "D5", Unghiular: "S5", Aritmetic: "5+", American: "4", Palmer: "┘5"},
-            {nume: "Premolar 2 Maxilar Stâng Permanent", FDI: "25", Francez: "S5", Unghiular: "5├", Aritmetic: "+5", American: "13", Palmer: "└5"},
-            {nume: "Molar 1 Maxilar Drept Permanent", FDI: "16", Francez: "D6", Unghiular: "S6", Aritmetic: "6+", American: "3", Palmer: "┘6"},
-            {nume: "Molar 1 Maxilar Stâng Permanent", FDI: "26", Francez: "S6", Unghiular: "6├", Aritmetic: "+6", American: "14", Palmer: "└6"},
-            {nume: "Molar 2 Maxilar Drept Permanent", FDI: "17", Francez: "D7", Unghiular: "S7", Aritmetic: "7+", American: "2", Palmer: "┘7"},
-            {nume: "Molar 2 Maxilar Stâng Permanent", FDI: "27", Francez: "S7", Unghiular: "7├", Aritmetic: "+7", American: "15", Palmer: "└7"},
-            {nume: "Molar 3 Maxilar Drept Permanent", FDI: "18", Francez: "D8", Unghiular: "S8", Aritmetic: "8+", American: "1", Palmer: "┘8"},
-            {nume: "Molar 3 Maxilar Stâng Permanent", FDI: "28", Francez: "S8", Unghiular: "8├", Aritmetic: "+8", American: "16", Palmer: "└8"},
-            {nume: "Incisiv Central Mandibular Drept Permanent", FDI: "41", Francez: "d1", Unghiular: "1┘", Aritmetic: "1-", American: "25", Palmer: "┘1"},
-            {nume: "Incisiv Central Mandibular Stâng Permanent", FDI: "31", Francez: "s1", Unghiular: "└1", Aritmetic: "-1", American: "24", Palmer: "└1"},
-            {nume: "Incisiv Lateral Mandibular Drept Permanent", FDI: "42", Francez: "d2", Unghiular: "2┘", Aritmetic: "2-", American: "26", Palmer: "┘2"},
-            {nume: "Incisiv Lateral Mandibular Stâng Permanent", FDI: "32", Francez: "s2", Unghiular: "└2", Aritmetic: "-2", American: "23", Palmer: "└2"},
-            {nume: "Canin Mandibular Drept Permanent", FDI: "43", Francez: "d3", Unghiular: "3┘", Aritmetic: "3-", American: "27", Palmer: "┘3"},
-            {nume: "Canin Mandibular Stâng Permanent", FDI: "33", Francez: "s3", Unghiular: "└3", Aritmetic: "-3", American: "22", Palmer: "└3"},
-            {nume: "Premolar 1 Mandibular Drept Permanent", FDI: "44", Francez: "d4", Unghiular: "4┘", Aritmetic: "4-", American: "28", Palmer: "┘4"},
-            {nume: "Premolar 1 Mandibular Stâng Permanent", FDI: "34", Francez: "s4", Unghiular: "└4", Aritmetic: "-4", American: "21", Palmer: "└4"},
-            {nume: "Premolar 2 Mandibular Drept Permanent", FDI: "45", Francez: "d5", Unghiular: "5┘", Aritmetic: "5-", American: "29", Palmer: "┘5"},
-            {nume: "Premolar 2 Mandibular Stâng Permanent", FDI: "35", Francez: "s5", Unghiular: "└5", Aritmetic: "-5", American: "20", Palmer: "└5"},
-            {nume: "Molar 1 Mandibular Drept Permanent", FDI: "46", Francez: "d6", Unghiular: "6┘", Aritmetic: "6-", American: "30", Palmer: "┘6"},
-            {nume: "Molar 1 Mandibular Stâng Permanent", FDI: "36", Francez: "s6", Unghiular: "└6", Aritmetic: "-6", American: "19", Palmer: "└6"},
-            {nume: "Molar 2 Mandibular Drept Permanent", FDI: "47", Francez: "d7", Unghiular: "7┘", Aritmetic: "7-", American: "31", Palmer: "┘7"},
-            {nume: "Molar 2 Mandibular Stâng Permanent", FDI: "37", Francez: "s7", Unghiular: "└7", Aritmetic: "-7", American: "18", Palmer: "└7"},
-            {nume: "Molar 3 Mandibular Drept Permanent", FDI: "48", Francez: "d8", Unghiular: "8┘", Aritmetic: "8-", American: "32", Palmer: "┘8"},
-            {nume: "Molar 3 Mandibular Stâng Permanent", FDI: "38", Francez: "s8", Unghiular: "└8", Aritmetic: "-8", American: "17", Palmer: "└8"}
-        ];
-
         const sisteme = ["FDI", "Francez", "Unghiular", "Aritmetic", "American", "Palmer"];
-        
         let currentQuestion = 0;
         let score = 0;
-        let maxQuestions = 10;
         let currentTooth = null;
         let currentSystem = "";
 
@@ -569,57 +703,46 @@
             score = 0;
             document.getElementById("game-area").classList.remove("hidden");
             document.getElementById("result-area").classList.add("hidden");
-            updateScore();
             nextQuestion();
         }
 
-        function generateRandomQuestion() {
+        function nextQuestion() {
+            if (currentQuestion >= 10) {
+                endGame();
+                return;
+            }
+            currentQuestion++;
+            document.getElementById("current-q").textContent = currentQuestion;
+            
             const randomIndex = Math.floor(Math.random() * dinti.length);
             currentTooth = dinti[randomIndex];
             currentSystem = sisteme[Math.floor(Math.random() * sisteme.length)];
             
             document.getElementById("system-display").textContent = currentSystem;
             document.getElementById("tooth-display").textContent = currentTooth.nume;
-            
-            // Reset UI
             document.getElementById("answer-input").value = "";
             document.getElementById("feedback").textContent = "";
             document.getElementById("submit-btn").classList.remove("hidden");
             document.getElementById("next-btn").classList.add("hidden");
-            document.getElementById("answer-input").focus();
-        }
-
-        function nextQuestion() {
-            if (currentQuestion >= maxQuestions) {
-                endGame();
-                return;
-            }
-            currentQuestion++;
-            document.getElementById("current-q").textContent = currentQuestion;
-            generateRandomQuestion();
         }
 
         function checkAnswer() {
             const input = document.getElementById("answer-input").value.trim();
             const correctAnswer = currentTooth[currentSystem];
-            const feedbackEl = document.getElementById("feedback");
-
             if (input.toLowerCase() === correctAnswer.toLowerCase()) {
                 score++;
-                feedbackEl.innerHTML = `<span class="correct">✔ Corect!</span>`;
-                updateScore();
+                document.getElementById("score").textContent = score;
+                document.getElementById("feedback").innerHTML = '<span class="correct">Corect!</span>';
             } else {
-                feedbackEl.innerHTML = `<span class="wrong">✘ Greșit. Răspunsul corect era: ${correctAnswer}</span>`;
+                document.getElementById("feedback").innerHTML = `<span class="wrong">Greșit! Corect era: ${correctAnswer}</span>`;
             }
-
             document.getElementById("submit-btn").classList.add("hidden");
             document.getElementById("next-btn").classList.remove("hidden");
-            
-            if (currentQuestion === maxQuestions) {
-                 document.getElementById("next-btn").textContent = "Vezi Rezultatul";
-            } else {
-                 document.getElementById("next-btn").textContent = "Următoarea Întrebare";
-            }
+        }
+
+        function addSymbolToQuiz(symbol) {
+             document.getElementById("answer-input").value += symbol;
+             document.getElementById("answer-input").focus();
         }
 
         function endGame() {
@@ -628,31 +751,11 @@
             document.getElementById("final-score").textContent = score;
         }
 
-        function updateScore() {
-            document.getElementById("score").textContent = score;
-        }
-
         function restartGame() {
             startGame();
         }
-
-        function addSymbol(symbol) {
-            const input = document.getElementById("answer-input");
-            input.value += symbol;
-            input.focus();
-        }
-
-        document.getElementById("answer-input").addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                if (!document.getElementById("submit-btn").classList.contains("hidden")) {
-                    checkAnswer();
-                } else {
-                    nextQuestion();
-                }
-            }
-        });
-
-        // Start joc
+        
+        // Initializare
         startGame();
 
     </script>
