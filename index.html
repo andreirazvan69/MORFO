@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anatomie Dentară: Teorie și Quiz</title>
+    <title>Anatomie Dentară: Teorie, Quiz și Completări</title>
     <style>
         :root {
             --primary-color: #0056b3;
@@ -223,6 +223,13 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.15);
             border: 1px solid #ddd;
         }
+        .img-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
 
         /* Stiluri Quiz & Completari */
         .quiz-container {
@@ -231,7 +238,7 @@
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             text-align: center;
-            max-width: 900px; /* Am marit pentru tabel */
+            max-width: 900px;
             margin: 0 auto;
         }
         .question-box {
@@ -251,11 +258,30 @@
         .action-btn {
             background-color: #28a745; color: white; border: none; padding: 12px 24px;
             font-size: 1rem; border-radius: 6px; cursor: pointer; transition: background 0.3s;
+            margin: 5px;
         }
         .action-btn:hover { background-color: #218838; }
         .hidden { display: none; }
         .correct { color: #28a745; font-weight: bold; }
         .wrong { color: #dc3545; font-weight: bold; }
+
+        /* Stiluri Butoane Simboluri (pentru Palmer/Unghiular) */
+        .symbol-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .symbol-btn {
+            padding: 5px 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            background: #f8f9fa;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .symbol-btn:hover { background: #e2e6ea; }
 
         /* --- STILURI SPECIFICE COMPLETĂRI (Grid Anatomic) --- */
         .completion-controls { margin-bottom: 20px; text-align: center; }
@@ -290,6 +316,7 @@
             font-size: 0.9rem;
             padding: 2px;
             border: 1px solid #bbb;
+            text-align: center;
         }
         .tooth-input-box.correct-bg { background-color: #d4edda; border-color: #28a745; }
         .tooth-input-box.wrong-bg { background-color: #f8d7da; border-color: #dc3545; }
@@ -314,6 +341,7 @@
             margin: 0 auto 20px auto;
             display: block;
             opacity: 0.8;
+            border: 1px solid #eee;
         }
 
         /* Stil mobil */
@@ -438,7 +466,7 @@
                     </select>
                 </div>
 
-                <img src="imagini/blank.png" alt="Schema Dentara" class="helper-img">
+                <img src="https://via.placeholder.com/300x150?text=Schema+Dentara+Orientativa" alt="Schema Dentara" class="helper-img">
 
                 <div class="dental-arch-container" id="dental-grid">
                     </div>
@@ -454,7 +482,7 @@
             <h1>1. Sistemul de notație FDI</h1>
             <p><strong>(Federația Dentară Internațională)</strong></p>
             <p>Sistemul FDI este cel mai utilizat sistem de notație dentară la nivel internațional.</p>
-            <img src="imagini/FDI.jpg" alt="Schema FDI" class="didactic-img">
+            <img src="https://via.placeholder.com/600x300?text=Schema+FDI" alt="Schema FDI" class="didactic-img">
             <div class="img-caption">Fig 1. Schema cadranelor în sistemul FDI</div>
             <p>Notația se bazează pe două cifre. Prima cifră indică cadranul dentar, iar a doua cifră indică poziția dintelui.</p>
             <div class="theory-footer-nav">
@@ -465,7 +493,7 @@
 
         <div id="theory-francez" class="section">
             <h1>2. Sistemul Francez</h1>
-            <img src="imagini/FRANCEZ.jpg" class="didactic-img">
+            <img src="https://via.placeholder.com/600x300?text=Schema+Francez" class="didactic-img">
             <div class="theory-footer-nav">
                 <button class="nav-link-btn" onclick="switchSection('theory-fdi', document.getElementById('nav-fdi'))">⬅ FDI</button>
                 <button class="nav-link-btn" onclick="switchSection('theory-unghiular', document.getElementById('nav-unghiular'))">Unghiular ➡</button>
@@ -474,7 +502,7 @@
         
         <div id="theory-unghiular" class="section">
             <h1>3. Sistemul Unghiular</h1>
-            <img src="imagini/UNGHIULAR.jpg" class="didactic-img">
+            <img src="https://via.placeholder.com/600x300?text=Schema+Unghiular" class="didactic-img">
             <div class="theory-footer-nav">
                 <button class="nav-link-btn" onclick="switchSection('theory-francez', document.getElementById('nav-francez'))">⬅ Francez</button>
                 <button class="nav-link-btn" onclick="switchSection('theory-aritmetic', document.getElementById('nav-aritmetic'))">Aritmetic ➡</button>
@@ -483,7 +511,7 @@
 
         <div id="theory-aritmetic" class="section">
             <h1>4. Sistemul Aritmetic</h1>
-            <img src="imagini/ARITMETIC.jpg" class="didactic-img">
+            <img src="https://via.placeholder.com/600x300?text=Schema+Aritmetic" class="didactic-img">
             <div class="theory-footer-nav">
                 <button class="nav-link-btn" onclick="switchSection('theory-unghiular', document.getElementById('nav-unghiular'))">⬅ Unghiular</button>
                 <button class="nav-link-btn" onclick="switchSection('theory-american', document.getElementById('nav-american'))">American ➡</button>
@@ -492,7 +520,7 @@
 
         <div id="theory-american" class="section">
             <h1>5. Sistemul American</h1>
-            <img src="imagini/AMERICAN.jpg" class="didactic-img">
+            <img src="https://via.placeholder.com/600x300?text=Schema+American" class="didactic-img">
             <div class="theory-footer-nav">
                 <button class="nav-link-btn" onclick="switchSection('theory-aritmetic', document.getElementById('nav-aritmetic'))">⬅ Aritmetic</button>
                 <button class="nav-link-btn" onclick="switchSection('theory-palmer', document.getElementById('nav-palmer'))">Palmer ➡</button>
@@ -501,7 +529,7 @@
 
         <div id="theory-palmer" class="section">
             <h1>6. Sistemul Palmer</h1>
-            <img src="imagini/PALMER.jpg" class="didactic-img">
+            <img src="https://via.placeholder.com/600x300?text=Schema+Palmer" class="didactic-img">
             <div class="theory-footer-nav">
                 <button class="nav-link-btn" onclick="switchSection('theory-american', document.getElementById('nav-american'))">⬅ American</button>
                 <button class="nav-link-btn" onclick="switchSection('landing-page', document.getElementById('nav-acasa'))">🏠 Acasă</button>
@@ -512,7 +540,7 @@
 
     <script>
         // =====================================================================
-        // DATA SET
+        // DATA SET (Baza de date cu dinti si notatii)
         // =====================================================================
         const dinti = [
             // --- TEMPORARI MAXILAR ---
@@ -685,6 +713,7 @@
             inputs.forEach(input => {
                 input.value = '';
                 input.className = 'tooth-input-box';
+                input.classList.remove('correct-bg', 'wrong-bg');
             });
         }
 
